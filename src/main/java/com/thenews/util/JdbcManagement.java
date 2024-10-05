@@ -22,26 +22,27 @@ public class JdbcManagement {
         }
     }
 
-    public void closeConnection(Connection connection, PreparedStatement preparedStatement) throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
+    public void closeConnection(PreparedStatement preparedStatement, Connection connection) throws SQLException {
         if (preparedStatement != null && !preparedStatement.isClosed()) {
             preparedStatement.close();
         }
-    }
 
-    public void closeConnection(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+    }
 
+    public void closeConnection(PreparedStatement preparedStatement, ResultSet resultSet, Connection connection) throws SQLException {
         if (preparedStatement != null && !preparedStatement.isClosed()) {
             preparedStatement.close();
         }
 
         if (resultSet != null && !resultSet.isClosed()) {
             resultSet.close();
+        }
+
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
         }
     }
 }

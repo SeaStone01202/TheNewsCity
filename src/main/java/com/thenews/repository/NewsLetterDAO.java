@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface NewsLetterDAO {
 
-    void save(NewsLetter newsletter);
+    int save(NewsLetter newsletter);
 
     List<NewsLetter> findAll();
 
-    NewsLetter findById(int id);
+    NewsLetter findByEmail(String email);
 }

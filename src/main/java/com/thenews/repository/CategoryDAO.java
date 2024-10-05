@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface CategoryDAO {
 
-    int save(Category category);
+    int save(Category entity);
 
-    int update(Category category);
+    int update(Category entity);
 
     int delete(int id);
 
