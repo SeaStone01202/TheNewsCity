@@ -2,13 +2,20 @@ package com.thenews.repository;
 
 import com.thenews.entity.Category;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CategoryDAO {
-    Category getCategoryById(int id);
-    Category getCategoryByName(String categoryName);
+
+    int save(Category category);
+
+    int update(Category category);
+
+    int delete(int id);
+
     List<Category> findAll();
-    void saveCategory(Category category);
-    void updateCategory(Category category);
-    void deleteCategory(int id);
+
+    Category findById(int id);
+
+    Category findByName(String categoryName);
 }
