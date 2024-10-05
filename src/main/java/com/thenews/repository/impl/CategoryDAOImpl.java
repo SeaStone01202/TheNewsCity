@@ -6,47 +6,35 @@ import com.thenews.util.JdbcManagement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAOImpl implements CategoryDAO{
+public class CategoryDAOImpl implements CategoryDAO {
 
-    private final JdbcManagement jm = new JdbcManagement();
+    private final JdbcManagement jdbcManagement;
+
+    public CategoryDAOImpl(JdbcManagement jdbcManagement) {
+        this.jdbcManagement = jdbcManagement;
+    }
 
     @Override
-    public int save(Category category){
-        Connection conn = null;
-        PreparedStatement ps = null;
+    public int save(Category category) {
+        String query = "INSERT INTO Categories (Name) VALUES(?)";
         int result = 0;
-        try{
-            conn = jm.getConnection();
-            String query = "insert into Categories (Name) values(?)";
-            ps = conn.prepareStatement(query);
+        try(Connection conn = jdbcManagement.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             conn.setAutoCommit(false);
             ps.setString(1, category.getCategoryName());
             result = ps.executeUpdate();
-            if(result > 0){
+            if (result > 0) {
                 conn.commit();
             }
-        } catch (Exception exception){
-            if(conn != null){
-                try {
-                    conn.rollback();
-                } catch (SQLException rollbackException) {
-                    throw new RuntimeException(rollbackException);
-                }
-            }
-            throw new RuntimeException(exception);
-        } finally {
-            if(conn != null){
-                try{
-                    jm.closeConnection(conn,ps);
-                } catch (SQLException closeException) {
-                    throw new RuntimeException(closeException);
-                }
-            }
+            return result;
+        } catch (SQLException exception) {
+            throw new RuntimeException("Save exception" + exception);
         }
-        return result;
     }
 
     @Override
@@ -54,33 +42,33 @@ public class CategoryDAOImpl implements CategoryDAO{
         Connection conn = null;
         PreparedStatement ps = null;
         int result = 0;
-        try{
-            String query = "update Categories set Name=? where Id=?";
-            conn = jm.getConnection();
+        try {
+            String query = "UPDATE Categories SET Name=? WHERE Id=?";
+            conn = jdbcManagement.getConnection();
             ps = conn.prepareStatement(query);
             conn.setAutoCommit(false);
             ps.setString(1, category.getCategoryName());
-            ps.setString(2, String.valueOf(category.getCategoryId()));
+            ps.setInt(2, category.getCategoryId()); // Chỉ định kiểu INT cho Id
             result = ps.executeUpdate();
-            if(result > 0){
+            if (result > 0) {
                 conn.commit();
             }
-        } catch (Exception exception) {
-            if(conn != null){
-                try{
+        } catch (SQLException exception) {
+            if (conn != null) {
+                try {
                     conn.rollback();
                 } catch (SQLException rollbackException) {
-                    throw new RuntimeException(rollbackException);
+                    throw new RuntimeException("Rollback failed: " + rollbackException.getMessage());
                 }
             }
-            throw new RuntimeException(exception);
+            throw new RuntimeException("Update failed: " + exception.getMessage());
         } finally {
-            if(conn != null){
-                try{
-                    jm.closeConnection(conn,ps);
-                } catch (SQLException closeException) {
-                    throw new RuntimeException(closeException);
+            try {
+                if (conn != null) {
+                    jdbcManagement.closeConnection(ps, conn);
                 }
+            } catch (SQLException closeException) {
+                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
             }
         }
         return result;
@@ -91,31 +79,32 @@ public class CategoryDAOImpl implements CategoryDAO{
         Connection conn = null;
         PreparedStatement ps = null;
         int result = 0;
-        try{
-            String query = "delete from Categories where Id=?";
-            conn = jm.getConnection();
+        try {
+            String query = "DELETE FROM Categories WHERE Id=?";
+            conn = jdbcManagement.getConnection();
             ps = conn.prepareStatement(query);
             conn.setAutoCommit(false);
             ps.setInt(1, id);
             result = ps.executeUpdate();
-            if(result > 0){
+            if (result > 0) {
                 conn.commit();
             }
-        } catch (Exception exception){
-            if(conn != null){
-                try{
+        } catch (SQLException exception) {
+            if (conn != null) {
+                try {
                     conn.rollback();
                 } catch (SQLException rollbackException) {
-                    throw new RuntimeException(rollbackException);
+                    throw new RuntimeException("Rollback failed: " + rollbackException.getMessage());
                 }
             }
+            throw new RuntimeException("Delete failed: " + exception.getMessage());
         } finally {
-            if(conn != null){
-                try{
-                    jm.closeConnection(conn, ps);
-                } catch (SQLException closeException) {
-                    throw new RuntimeException(closeException);
+            try {
+                if (conn != null) {
+                    jdbcManagement.closeConnection(ps, conn);
                 }
+            } catch (SQLException closeException) {
+                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
             }
         }
         return result;
@@ -123,16 +112,94 @@ public class CategoryDAOImpl implements CategoryDAO{
 
     @Override
     public List<Category> findAll() {
-        return List.of();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Category> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM Categories";
+            conn = jdbcManagement.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Category entity = new Category();
+                entity.setCategoryId(rs.getInt("Id"));
+                entity.setCategoryName(rs.getString("Name"));
+                list.add(entity);
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("FindAll failed: " + exception.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    jdbcManagement.closeConnection(ps, rs, conn);
+                }
+            } catch (SQLException closeException) {
+                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+            }
+        }
+        return list;
     }
 
     @Override
     public Category findById(int id) {
-        return null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Category entity = null;
+        try{
+            String query = "SELECT TOP 1 * FROM Categories WHERE Id=?";
+            conn = jdbcManagement.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                entity = new Category();
+                entity.setCategoryId(rs.getInt("Id"));
+                entity.setCategoryName(rs.getString("Name"));
+            }
+        } catch (Exception exception){
+            throw new RuntimeException("FindById failed: " + exception.getMessage());
+        } finally {
+            if (conn != null) {
+                try{
+                    jdbcManagement.closeConnection(ps, rs, conn);
+                } catch (SQLException closeException) {
+                    throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                }
+            }
+        }
+        return entity;
     }
 
     @Override
     public Category findByName(String categoryName) {
-        return null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Category entity = null;
+        try{
+            String query = "SELECT TOP 1 * FROM Categories WHERE Name=?";
+            conn = jdbcManagement.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, categoryName);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                entity = new Category();
+                entity.setCategoryId(rs.getInt("Id"));
+                entity.setCategoryName(rs.getString("Name"));
+            }
+        } catch (Exception exception){
+            throw new RuntimeException("FindByName failed: " + exception.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    jdbcManagement.closeConnection(ps, rs, conn);
+                } catch (SQLException closeException) {
+                    throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                }
+            }
+        }
+        return entity;
     }
 }
