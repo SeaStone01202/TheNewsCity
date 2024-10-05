@@ -1,0 +1,43 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Kiểu chung */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+
+/* Đáp ứng cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .search-bar {
+        width: 100%; /* Chiếm toàn bộ chiều rộng khi màn hình nhỏ */
+        justify-content: center; /* Canh giữa trên màn hình nhỏ */
+    }
+
+    .search-bar input[type="text"] {
+        width: 100%; /* Ô tìm kiếm chiếm 100% trên màn hình nhỏ */
+    }
+
+    .search-bar button {
+        width: auto; /* Đảm bảo nút không quá rộng */
+    }
+}
+
+
+
+
+

@@ -1,0 +1,222 @@
+/* General Styling */
+/* Đặt màu nền cho body */
+body {
+    background-color: #f4f4f4; /* Màu nền xám nhạt */
+    padding: 20px; /* Đặt khoảng cách từ viền */
+}
+
+/* Định dạng cho tiêu đề h2 có lớp 'text-green' */
+h2.text-green {
+    color: #28a745; /* Màu xanh lá cây */
+    font-size: 28px; /* Kích thước chữ */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    font-weight: bold; /* Làm đậm chữ */
+}
+
+/* Form Styling */
+/* Định dạng cho form có lớp 'form-product' */
+form.form-product {
+    background-color: #fff; /* Màu nền trắng */
+    padding: 20px; /* Đặt khoảng cách bên trong */
+    border-radius: 8px; /* Bo tròn các góc */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+}
+
+/* Định dạng cho các ô nhập liệu */
+.form-control {
+    border-radius: 6px; /* Bo tròn các góc */
+    padding: 10px; /* Đặt khoảng cách bên trong */
+    border: 1px solid #ced4da; /* Viền xám nhạt */
+    box-shadow: none; /* Không có đổ bóng */
+}
+
+/* Định dạng cho ô nhập liệu khi có tiêu điểm */
+.form-control:focus {
+    border-color: #28a745; /* Màu viền xanh lá cây khi focus */
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Đổ bóng xanh nhạt */
+}
+
+/* Định dạng cho nhãn label */
+label {
+    font-weight: 500; /* Độ đậm chữ */
+    color: #495057; /* Màu chữ xám đậm */
+}
+
+/* Định dạng cho textarea có lớp 'form-control' */
+textarea.form-control {
+    resize: vertical; /* Cho phép thay đổi kích thước theo chiều dọc */
+}
+
+/* Status radio buttons */
+/* Định dạng cho radio button trong phần 'activeBlog' */
+#activeBlog {
+    label {
+        display: inline-block; /* Hiển thị label theo hàng ngang */
+        margin-right: 10px; /* Khoảng cách bên phải */
+    }
+
+    input[type="radio"] {
+        margin-right: 5px; /* Khoảng cách bên phải cho radio */
+    }
+}
+
+/* Thumbnail styling */
+/* Định dạng cho hình ảnh thumbnail */
+#imagePreview {
+    max-width: 100px; /* Đặt chiều rộng tối đa */
+    max-height: 100px; /* Đặt chiều cao tối đa */
+    border-radius: 5px; /* Bo tròn các góc */
+    margin-top: 10px; /* Khoảng cách trên */
+    display: block; /* Hiển thị dạng khối */
+    border: 1px solid #ccc; /* Viền xám nhạt */
+}
+
+/* Buttons styling */
+/* Định dạng cho các nút bấm */
+.btn {
+    border-radius: 6px; /* Bo tròn các góc */
+}
+
+/* Định dạng cho nút màu xanh lá cây */
+.btn-green {
+    background-color: #28a745; /* Màu nền xanh lá cây */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Định dạng cho nút màu xanh lá cây khi hover */
+.btn-green:hover {
+    background-color: #218838; /* Màu nền xanh đậm khi hover */
+}
+
+/* Định dạng cho nút màu xám */
+.btn-cement {
+    background-color: #6c757d; /* Màu nền xám */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Định dạng cho nút màu xám khi hover */
+.btn-cement:hover {
+    background-color: #5a6268; /* Màu nền xám đậm khi hover */
+}
+
+/* Table styling */
+/* Định dạng cho bảng */
+.table {
+    width: 100%; /* Chiều rộng 100% */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    border-collapse: collapse; /* Hợp nhất viền */
+    background-color: #fff; /* Màu nền trắng */
+}
+
+/* Định dạng cho tiêu đề bảng */
+.table thead th {
+    background-color: rgb(76, 122, 175); /* Màu nền đỏ */
+    color: #fff; /* Màu chữ trắng */
+    padding: 12px; /* Khoảng cách bên trong */
+    font-size: 16px; /* Kích thước chữ */
+    text-align: left; /* Canh trái */
+}
+
+/* Định dạng cho các ô dữ liệu trong bảng */
+.table tbody td {
+    padding: 12px; /* Khoảng cách bên trong */
+    font-size: 14px; /* Kích thước chữ */
+    color: #333; /* Màu chữ xám đậm */
+    border-bottom: 1px solid #dee2e6; /* Viền dưới xám nhạt */
+}
+
+/* Định dạng cho tiêu đề có chiều rộng cố định */
+.fixed-width-title {
+    max-width: 200px; /* Chiều rộng tối đa */
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu ba chấm khi tràn */
+}
+
+/* Định dạng cho hình ảnh trong ô mockup */
+.mockup-cell img {
+    max-width: 50px; /* Chiều rộng tối đa */
+    max-height: 50px; /* Chiều cao tối đa */
+    border-radius: 5px; /* Bo tròn các góc */
+    border: 1px solid #ccc; /* Viền xám nhạt */
+}
+
+/* Định dạng cho hàng trong bảng khi hover */
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Màu nền xám nhạt khi hover */
+}
+
+/* Edit button styling */
+/* Định dạng cho nút chỉnh sửa */
+.edit-button {
+    background-color: #ffc107; /* Màu nền vàng */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Không có viền */
+    padding: 5px 10px; /* Khoảng cách bên trong */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+    border-radius: 6px; /* Bo tròn các góc */
+}
+
+/* Định dạng cho nút chỉnh sửa khi hover */
+.edit-button:hover {
+    background-color: #e0a800; /* Màu nền vàng đậm khi hover */
+}
+
+/* Pagination */
+/* Định dạng cho phân trang sản phẩm */
+.product__pagination {
+    display: flex; /* Hiển thị dạng flex */
+    justify-content: center; /* Canh giữa */
+    padding: 10px 0; /* Đặt khoảng cách trên và dưới */
+}
+
+/* Định dạng cho các liên kết phân trang */
+.product__pagination a {
+    display: inline-block; /* Hiển thị dạng khối */
+    padding: 8px 16px; /* Khoảng cách bên trong */
+    margin: 0 4px; /* Khoảng cách bên trái và phải */
+    border-radius: 5px; /* Bo tròn các góc */
+    background-color: #f4f4f4; /* Màu nền xám nhạt */
+    color: #333; /* Màu chữ xám đậm */
+    text-decoration: none; /* Không có gạch chân */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+/* Định dạng cho liên kết phân trang khi hover */
+.product__pagination a:hover,
+.product__pagination a.active {
+    background-color: #28a745; /* Màu nền xanh lá cây khi hover hoặc đang hoạt động */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Navbar styling */
+/* Định dạng cho navbar */
+.navbar {
+    background-color: rgb(76, 122, 175); /* Màu nền đỏ */
+}
+
+/* Định dạng cho liên kết trong navbar */
+.nav-link {
+    color: white; /* Màu chữ trắng */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+/* Định dạng cho liên kết trong navbar khi hover */
+.nav-link:hover {
+    color: #ffc107; /* Màu chữ vàng khi hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Màu nền trắng nhạt khi hover */
+}
+
+/* Định dạng cho liên kết trong navbar đang hoạt động */
+.nav-link.active {
+    font-weight: bold; /* Làm đậm chữ cho mục đang chọn */
+    background-color: rgba(255, 255, 255, 0.3); /* Màu nền trắng nhạt cho mục đang chọn */
+    border-radius: 5px; /* Bo tròn các góc */
+}
+
+/* Profile Image Preview */
+/* Định dạng cho hình ảnh đại diện */
+#profileImagePreview {
+    border-radius: 50%; /* Bo tròn thành hình tròn */
+}

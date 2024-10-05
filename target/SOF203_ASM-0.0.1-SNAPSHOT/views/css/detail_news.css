@@ -1,0 +1,93 @@
+
+
+
+
+/* Main Content */
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 10px; /* Giảm gap từ 20px xuống 10px để thu hẹp khoảng trắng */
+}
+
+.article-container {
+    flex: 2;
+    max-width: 75%; /* Điều chỉnh tăng chiều rộng của bài viết */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.related-news {
+    flex: 1;
+    max-width: 22%; /* Điều chỉnh để tin cùng loại nhỏ hơn */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.related-news h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.related-news ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.related-news ul li {
+    margin-bottom: 10px;
+}
+
+.related-news ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s;
+}
+
+.related-news ul li a:hover {
+    color: #0056b3;
+}
+
+/* Bình luận */
+.comment-section {
+    margin-top: 40px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comment-form button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+.comment p {
+    margin: 5px 0;
+}
+

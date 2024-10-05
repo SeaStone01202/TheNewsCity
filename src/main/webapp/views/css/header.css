@@ -1,0 +1,172 @@
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+/* Dropdown menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+/* Navbar */
+.navbar {
+    list-style: none;
+    display: flex;
+    align-items: center; /* Giữ cho các item căn giữa */
+}
+
+.navbar li {
+    margin: 0 15px;
+    position: relative;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    display: block;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #007BFF;
+}
+
+/* Tìm kiếm */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Canh phải để tránh chèn vào các phần tử khác */
+    gap: 10px;
+    flex-shrink: 1; /* Đảm bảo không chiếm quá nhiều không gian */
+}
+
+.search-bar input[type="text"] {
+    padding: 8px;
+    width: 180px; /* Giảm chiều rộng để vừa vặn hơn */
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: #007BFF;
+}
+
+.search-bar button {
+    padding: 8px 15px; /* Giảm padding để nút nhỏ hơn */
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Hamburger Menu (Responsive) */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    height: 3px;
+    width: 25px;
+    background-color: #333;
+    margin: 4px 0;
+}
+
+/* Main Content */
+main {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.top-stories {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.main-story img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.main-story h2 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .navbar {
+        display: none; /* Ẩn navbar trên màn hình nhỏ */
+        flex-direction: column; /* Hiển thị theo chiều dọc */
+        position: absolute;
+        top: 60px; /* Đặt vị trí dưới header */
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        z-index: 10;
+    }
+
+    .navbar.active {
+        display: flex; /* Hiển thị khi hamburger được nhấn */
+    }
+}

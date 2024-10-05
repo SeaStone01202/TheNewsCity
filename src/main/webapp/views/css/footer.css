@@ -1,0 +1,70 @@
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-top: 1px solid #444;
+}
+
+.footer-widget {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-widget h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #007BFF;
+}
+
+.newsletter {
+    flex-basis: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.newsletter form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter input[type="email"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.newsletter button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.social-media {
+    flex-basis: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.social-media h3 {
+    margin-bottom: 10px;
+}
+
+.social-media .social-link {
+    color: #007BFF;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.social-media .social-link:hover {
+    text-decoration: underline;
+}

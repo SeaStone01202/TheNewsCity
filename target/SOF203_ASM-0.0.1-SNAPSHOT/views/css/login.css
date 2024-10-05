@@ -1,0 +1,23 @@
+/* Đảm bảo body chiếm toàn bộ chiều cao của viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Định dạng cho toàn bộ trang */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Đẩy header và footer ra hai đầu */
+    height: 100vh; /* Chiếm toàn bộ chiều cao của viewport */
+}
+
+/* Main container */
+main {
+    flex: 1; /* Chiếm phần không gian giữa header và footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f8ff; /* Màu xanh nước biển nhạt */
+}

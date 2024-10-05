@@ -1,0 +1,200 @@
+/* Ghi đè các kiểu mặc định của Bootstrap để có giao diện tùy chỉnh */
+
+/* Kiểu chung */
+body {
+    background-color: #f4f4f4; /* Màu nền tổng thể */
+    padding: 20px; /* Khoảng cách bên trong */
+}
+
+h2.text-green {
+    color: #28a745; /* Màu chữ xanh */
+    font-size: 28px; /* Kích thước chữ */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    font-weight: bold; /* Đậm chữ */
+}
+
+/* Kiểu cho form */
+form.form-product {
+    background-color: #fff; /* Màu nền trắng */
+    padding: 20px; /* Khoảng cách bên trong */
+    border-radius: 8px; /* Bo tròn các góc */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+}
+
+/* Kiểu cho các trường nhập liệu */
+.form-control {
+    border-radius: 6px; /* Bo tròn các góc */
+    padding: 10px; /* Khoảng cách bên trong */
+    border: 1px solid #ced4da; /* Viền màu xám */
+    box-shadow: none; /* Không có đổ bóng */
+}
+
+.form-control:focus {
+    border-color: #28a745; /* Màu viền khi tập trung */
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Đổ bóng khi tập trung */
+}
+
+label {
+    font-weight: 500; /* Đậm chữ */
+    color: #495057; /* Màu chữ */
+}
+
+/* Kiểu cho ô textarea */
+textarea.form-control {
+    resize: vertical; /* Cho phép kéo dài theo chiều dọc */
+}
+
+/* Kiểu cho nút radio trạng thái */
+#activeBlog label {
+    display: inline-block; /* Hiển thị theo hàng ngang */
+    margin-right: 10px; /* Khoảng cách bên phải */
+}
+
+#activeBlog input[type="radio"] {
+    margin-right: 5px; /* Khoảng cách bên phải */
+}
+
+/* Kiểu cho hình xem trước hình ảnh */
+#imagePreview {
+    max-width: 100px; /* Chiều rộng tối đa */
+    max-height: 100px; /* Chiều cao tối đa */
+    border-radius: 5px; /* Bo tròn các góc */
+    margin-top: 10px; /* Khoảng cách trên */
+    display: block; /* Hiển thị thành khối */
+    border: 1px solid #ccc; /* Viền màu xám nhạt */
+}
+
+/* Kiểu cho nút */
+.btn-green {
+    background-color: #28a745; /* Màu nền xanh */
+    color: #fff; /* Màu chữ trắng */
+    border-radius: 6px; /* Bo tròn các góc */
+}
+
+.btn-green:hover {
+    background-color: #218838; /* Màu nền khi hover */
+}
+
+.btn-cement {
+    background-color: #6c757d; /* Màu nền xám */
+    color: #fff; /* Màu chữ trắng */
+    border-radius: 6px; /* Bo tròn các góc */
+}
+
+.btn-cement:hover {
+    background-color: #5a6268; /* Màu nền khi hover */
+}
+
+/* Kiểu cho bảng */
+.table {
+    width: 100%; /* Chiều rộng 100% */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    border-collapse: collapse; /* Xóa khoảng cách giữa các ô */
+    background-color: #fff; /* Màu nền trắng */
+}
+
+.table thead th {
+    background-color: #28a745; /* Màu nền của tiêu đề bảng */
+    color: #fff; /* Màu chữ trắng */
+    padding: 12px; /* Khoảng cách bên trong */
+    font-size: 16px; /* Kích thước chữ */
+    text-align: left; /* Căn trái */
+}
+
+.table tbody td {
+    padding: 12px; /* Khoảng cách bên trong */
+    font-size: 14px; /* Kích thước chữ */
+    color: #333; /* Màu chữ tối */
+    border-bottom: 1px solid #dee2e6; /* Viền dưới bảng */
+}
+
+/* Kiểu cho tiêu đề bảng có chiều rộng cố định */
+.fixed-width-title {
+    max-width: 200px; /* Chiều rộng tối đa */
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden; /* Ẩn phần thừa */
+    text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+}
+
+/* Kiểu cho ô hình ảnh trong bảng */
+.mockup-cell img {
+    max-width: 50px; /* Chiều rộng tối đa */
+    max-height: 50px; /* Chiều cao tối đa */
+    border-radius: 5px; /* Bo tròn các góc */
+    border: 1px solid #ccc; /* Viền màu xám nhạt */
+}
+
+/* Kiểu cho hàng khi hover trong bảng */
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Màu nền khi hover */
+}
+
+/* Kiểu cho nút chỉnh sửa */
+.edit-button {
+    background-color: #ffc107; /* Màu nền vàng */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Không có viền */
+    border-radius: 6px; /* Bo tròn các góc */
+    padding: 5px 10px; /* Khoảng cách bên trong */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+.edit-button:hover {
+    background-color: #e0a800; /* Màu nền khi hover */
+}
+
+/* Kiểu cho phân trang */
+.product__pagination {
+    display: flex; /* Sử dụng flexbox */
+    justify-content: center; /* Căn giữa */
+    padding: 10px 0; /* Khoảng cách trên và dưới */
+}
+
+/* Kiểu cho liên kết trong phân trang */
+.product__pagination a {
+    display: inline-block; /* Hiển thị theo hàng ngang */
+    padding: 8px 16px; /* Khoảng cách bên trong */
+    margin: 0 4px; /* Khoảng cách bên trái và phải */
+    border-radius: 5px; /* Bo tròn các góc */
+    background-color: #f4f4f4; /* Màu nền xám nhạt */
+    color: #333; /* Màu chữ tối */
+    text-decoration: none; /* Bỏ gạch chân */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+.product__pagination a:hover {
+    background-color: #28a745; /* Màu nền khi hover */
+    color: #fff; /* Màu chữ trắng khi hover */
+}
+
+/* Kiểu cho liên kết đang được chọn trong phân trang */
+.product__pagination a.active {
+    background-color: #28a745; /* Màu nền của liên kết đang chọn */
+    color: #fff; /* Màu chữ trắng */
+}
+
+/* Kiểu cho navbar */
+.navbar {
+    background-color: #28a745; /* Màu nền của navbar */
+}
+
+.nav-link {
+    color: white; /* Màu chữ mặc định */
+}
+
+.nav-link:hover {
+    color: #ffc107; /* Màu chữ khi hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Màu nền khi hover */
+}
+
+.nav-link.active {
+    font-weight: bold; /* Làm đậm chữ cho mục đang chọn */
+    background-color: rgba(255, 255, 255, 0.3); /* Màu nền cho mục đang chọn */
+    border-radius: 5px; /* Bo tròn các góc */
+}
+
+/* Kiểu cho hình ảnh đại diện trong profile */
+#profileImagePreview {
+    border-radius: 50%; /* Bo tròn thành hình tròn */
+}

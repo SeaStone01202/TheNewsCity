@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SOF203_ASM:war2">
+    <output-path>$PROJECT_DIR$/out/artifacts/SOF203_ASM_war2</output-path>
+    <root id="archive" name="SOF203_ASM_war.war">
+      <element id="artifact" artifact-name="SOF203_ASM:war exploded" />
+    </root>
+  </artifact>
+</component>
