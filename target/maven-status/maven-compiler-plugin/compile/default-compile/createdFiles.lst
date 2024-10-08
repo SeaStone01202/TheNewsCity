@@ -1,10 +1,12 @@
 com\thenews\entity\NewsLetter.class
 com\thenews\entity\User.class
-com\thenews\util\JdbcUtils.class
 com\thenews\repository\impl\CategoryDAOImpl.class
 com\thenews\repository\NewsLetterDAO.class
 com\thenews\entity\News.class
+com\thenews\repository\impl\NewsLetterDAOImpl.class
+com\thenews\repository\impl\UserDAOImpl.class
 com\thenews\repository\UserDAO.class
+com\thenews\util\JdbcManagement.class
 com\thenews\repository\NewsDAO.class
 com\thenews\entity\Category.class
 com\thenews\repository\CategoryDAO.class

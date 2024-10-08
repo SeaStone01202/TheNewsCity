@@ -21,20 +21,30 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public int save(Category category) {
-        String query = "INSERT INTO Categories (Name) VALUES(?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
         int result = 0;
-        try(Connection conn = jdbcManagement.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query)) {
-            conn.setAutoCommit(false);
+        try {
+            String query = "INSERT INTO Categories (Name) VALUES(?)";
+            conn = jdbcManagement.getConnection();
+            ps = conn.prepareStatement(query);
             ps.setString(1, category.getCategoryName());
+            conn.setAutoCommit(false);
             result = ps.executeUpdate();
             if (result > 0) {
                 conn.commit();
             }
-            return result;
-        } catch (SQLException exception) {
-            throw new RuntimeException("Save exception" + exception);
+        } catch (SQLException saveException) {
+            throw new RuntimeException("Save exception - " + saveException);
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+                jdbcManagement.closeConnection(ps, conn);
+            } catch (SQLException closeException) {
+                throw new RuntimeException("Close exception - " + closeException);
+            }
         }
+        return result;
     }
 
     @Override
@@ -48,7 +58,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             ps = conn.prepareStatement(query);
             conn.setAutoCommit(false);
             ps.setString(1, category.getCategoryName());
-            ps.setInt(2, category.getCategoryId()); // Chỉ định kiểu INT cho Id
+            ps.setInt(2, category.getCategoryId());
             result = ps.executeUpdate();
             if (result > 0) {
                 conn.commit();
@@ -58,17 +68,16 @@ public class CategoryDAOImpl implements CategoryDAO {
                 try {
                     conn.rollback();
                 } catch (SQLException rollbackException) {
-                    throw new RuntimeException("Rollback failed: " + rollbackException.getMessage());
+                    throw new RuntimeException("Rollback failed: - " + rollbackException.getMessage());
                 }
             }
-            throw new RuntimeException("Update failed: " + exception.getMessage());
+            throw new RuntimeException("Update failed: - " + exception.getMessage());
         } finally {
             try {
-                if (conn != null) {
-                    jdbcManagement.closeConnection(ps, conn);
-                }
+                conn.setAutoCommit(true);
+                jdbcManagement.closeConnection(ps, conn);
             } catch (SQLException closeException) {
-                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                throw new RuntimeException("Closing resources failed: - " + closeException.getMessage());
             }
         }
         return result;
@@ -94,17 +103,16 @@ public class CategoryDAOImpl implements CategoryDAO {
                 try {
                     conn.rollback();
                 } catch (SQLException rollbackException) {
-                    throw new RuntimeException("Rollback failed: " + rollbackException.getMessage());
+                    throw new RuntimeException("Rollback failed: - " + rollbackException);
                 }
             }
-            throw new RuntimeException("Delete failed: " + exception.getMessage());
+            throw new RuntimeException("Delete failed: - " + exception.getMessage());
         } finally {
             try {
-                if (conn != null) {
-                    jdbcManagement.closeConnection(ps, conn);
-                }
+                conn.setAutoCommit(true);
+                jdbcManagement.closeConnection(ps, conn);
             } catch (SQLException closeException) {
-                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                throw new RuntimeException("Closing resources failed: - " + closeException);
             }
         }
         return result;
@@ -128,14 +136,12 @@ public class CategoryDAOImpl implements CategoryDAO {
                 list.add(entity);
             }
         } catch (SQLException exception) {
-            throw new RuntimeException("FindAll failed: " + exception.getMessage());
+            throw new RuntimeException("FindAll failed: - " + exception.getMessage());
         } finally {
             try {
-                if (conn != null) {
-                    jdbcManagement.closeConnection(ps, rs, conn);
-                }
+                jdbcManagement.closeConnection(ps, rs, conn);
             } catch (SQLException closeException) {
-                throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                throw new RuntimeException("Closing resources failed: - " + closeException);
             }
         }
         return list;
@@ -147,7 +153,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Category entity = null;
-        try{
+        try {
             String query = "SELECT TOP 1 * FROM Categories WHERE Id=?";
             conn = jdbcManagement.getConnection();
             ps = conn.prepareStatement(query);
@@ -158,14 +164,14 @@ public class CategoryDAOImpl implements CategoryDAO {
                 entity.setCategoryId(rs.getInt("Id"));
                 entity.setCategoryName(rs.getString("Name"));
             }
-        } catch (Exception exception){
-            throw new RuntimeException("FindById failed: " + exception.getMessage());
+        } catch (Exception exception) {
+            throw new RuntimeException("FindById failed: - " + exception.getMessage());
         } finally {
             if (conn != null) {
-                try{
+                try {
                     jdbcManagement.closeConnection(ps, rs, conn);
                 } catch (SQLException closeException) {
-                    throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                    throw new RuntimeException("Closing resources failed: - " + closeException.getMessage());
                 }
             }
         }
@@ -178,25 +184,25 @@ public class CategoryDAOImpl implements CategoryDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Category entity = null;
-        try{
+        try {
             String query = "SELECT TOP 1 * FROM Categories WHERE Name=?";
             conn = jdbcManagement.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, categoryName);
             rs = ps.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 entity = new Category();
                 entity.setCategoryId(rs.getInt("Id"));
                 entity.setCategoryName(rs.getString("Name"));
             }
-        } catch (Exception exception){
-            throw new RuntimeException("FindByName failed: " + exception.getMessage());
+        } catch (Exception exception) {
+            throw new RuntimeException("FindByName failed: - " + exception);
         } finally {
             if (conn != null) {
                 try {
                     jdbcManagement.closeConnection(ps, rs, conn);
                 } catch (SQLException closeException) {
-                    throw new RuntimeException("Closing resources failed: " + closeException.getMessage());
+                    throw new RuntimeException("Closing resources failed: - " + closeException);
                 }
             }
         }

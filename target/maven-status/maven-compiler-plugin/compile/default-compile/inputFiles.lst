@@ -1,10 +1,12 @@
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\impl\CategoryDAOImpl.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\NewsLetterDAO.java
+E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\impl\UserDAOImpl.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\entity\User.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\entity\NewsLetter.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\UserDAO.java
-E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\util\JdbcUtils.java
+E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\util\JdbcManagement.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\entity\Category.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\CategoryDAO.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\entity\News.java
+E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\impl\NewsLetterDAOImpl.java
 E:\Workspace\Eclipse\SOF203_ASM\src\main\java\com\thenews\repository\NewsDAO.java

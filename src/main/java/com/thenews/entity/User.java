@@ -16,8 +16,6 @@ public class User {
 
     private String phone;
 
-    private String address;
-
     private Date birthday;
 
     private boolean gender;
@@ -27,14 +25,13 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String password, String fullname, String email, String phone, String address, Date birthday, boolean gender, boolean role) {
-        this.userId = id;
+    public User(Integer userId, String username, String password, String fullname, String email, String phone, Date birthday, boolean gender, boolean role) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.email = email;
         this.phone = phone;
-        this.address = address;
         this.birthday = birthday;
         this.gender = gender;
         this.role = role;
@@ -86,14 +83,6 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public Date getBirthday() {
