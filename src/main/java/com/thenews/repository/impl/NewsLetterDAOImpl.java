@@ -46,6 +46,7 @@ public class NewsLetterDAOImpl implements NewsLetterDAO {
             throw new RuntimeException("Save exception - " + exception);
         } finally {
             try{
+                conn.setAutoCommit(true);
                 jdbcManagement.closeConnection(ps, conn);
             } catch (SQLException closeException) {
                 throw new RuntimeException("Close exception - " + closeException);
@@ -73,13 +74,6 @@ public class NewsLetterDAOImpl implements NewsLetterDAO {
                 list.add(entity);
             }
         } catch (Exception exception) {
-            if (conn != null) {
-                try{
-                    conn.rollback();
-                } catch (SQLException rollbackException) {
-                    throw new RuntimeException("Rollback exception - " + rollbackException);
-                }
-            }
             throw new RuntimeException("Find all exception - " + exception);
         } finally {
             try{
@@ -110,14 +104,13 @@ public class NewsLetterDAOImpl implements NewsLetterDAO {
                 entity.setEnabled(rs.getBoolean("Enabled"));
             }
         } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException rollbackException) {
-                    throw new RuntimeException("Rollback exception - " + rollbackException);
-                }
-            }
             throw new RuntimeException("Find by email exception - " + e);
+        } finally {
+            try{
+                jdbcManagement.closeConnection(ps, rs, conn);
+            } catch (SQLException closeException) {
+                throw new RuntimeException("Close exception - " + closeException);
+            }
         }
         return entity;
     }
