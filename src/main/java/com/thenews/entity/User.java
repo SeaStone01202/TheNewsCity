@@ -1,6 +1,7 @@
 package com.thenews.entity;
 
 import java.sql.Date;
+import java.lang.Integer;
 
 public class User {
 

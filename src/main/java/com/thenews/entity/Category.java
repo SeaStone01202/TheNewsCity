@@ -1,5 +1,7 @@
 package com.thenews.entity;
 
+import java.lang.Integer;
+
 public class Category {
 
     private Integer categoryId;
@@ -9,9 +11,9 @@ public class Category {
     public Category() {
     }
 
-    public Category(Integer categoryId, String name) {
+    public Category(Integer categoryId, String categoryName) {
         this.categoryId = categoryId;
-        this.categoryName = name;
+        this.categoryName = categoryName;
     }
 
     public Integer getCategoryId() {
