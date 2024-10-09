@@ -2,7 +2,7 @@ package com.thenews.entity;
 
 public class NewsLetter {
 
-    private int newsletterId;
+    private Integer newsletterId;
 
     private String email;
 
@@ -11,17 +11,17 @@ public class NewsLetter {
     public NewsLetter() {
     }
 
-    public NewsLetter(int id, String email, boolean enabled) {
-        this.newsletterId = id;
+    public NewsLetter(Integer newsletterId, String email, boolean enabled) {
+        this.newsletterId = newsletterId;
         this.email = email;
         this.enabled = enabled;
     }
 
-    public int getNewsletterId() {
+    public Integer getNewsletterId() {
         return newsletterId;
     }
 
-    public void setNewsletterId(int newsletterId) {
+    public void setNewsletterId(Integer newsletterId) {
         this.newsletterId = newsletterId;
     }
 

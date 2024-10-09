@@ -1,5 +1,6 @@
 package com.thenews.entity;
 
+import java.lang.Integer;
 import java.sql.Date;
 
 public class News {
