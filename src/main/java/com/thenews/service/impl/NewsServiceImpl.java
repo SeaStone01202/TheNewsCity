@@ -3,13 +3,12 @@ package com.thenews.service.impl;
 import com.thenews.entity.News;
 import com.thenews.repository.NewsRepository;
 import com.thenews.service.NewsService;
-import com.thenews.util.ConnectionManagement;
 
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
 
-    private final NewsRepository repo;
+    private  NewsRepository repo;
 
     public NewsServiceImpl(NewsRepository repo) {
         this.repo = repo;
