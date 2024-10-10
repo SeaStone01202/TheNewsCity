@@ -165,17 +165,4 @@ public class NewsRepoImpl implements NewsRepository {
         }
         return newsList;
     }
-
-    @Override
-    public News findById(Integer id) {
-        News entity = null;
-        List<News> newsList = findAll();
-        for (News news : newsList) {
-            if (news.getNewsId().equals(id)) {
-                entity = news;
-            }
-        }
-        return entity;
-    }
-
 }

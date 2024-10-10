@@ -17,13 +17,11 @@
         <!-- Phần bài viết -->
         <section class="col-12 col-md-9">
             <article>
-                <h1>Tiêu đề bài báo: Những thay đổi trong năm 2024</h1>
-                <h3>Tác giả: Thạch</h3>
-                <h3>Ngày đăng: 25/09/2024</h3>
-                <img src="https://via.placeholder.com/800x400" alt="Hình ảnh bài báo" class="img-fluid mb-3">
-                <p>Đoạn mở đầu của bài báo sẽ giới thiệu về những thay đổi quan trọng trong năm 2024...</p>
-                <p>Bên cạnh đó, bài viết cũng sẽ nêu lên một số quan điểm khác nhau từ các chuyên gia trong lĩnh vực này...</p>
-                <p>Cuối cùng, bài viết sẽ tóm tắt những điểm chính...</p>
+                <h1>${news.title}</h1>
+                <h3>Tác giả: ${news.authorId}</h3>
+                <h3>Ngày đăng: ${news.postedDate}</h3>
+                <img src="${news.image}" alt="Hình ảnh bài báo" class="img-fluid mb-3">
+                <p>${news.content}</p>
             </article>
 
             <!-- Phần bình luận -->

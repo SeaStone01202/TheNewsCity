@@ -99,28 +99,4 @@ public class NewsLetterRepoImpl implements NewsLetterRepository {
         }
         return list;
     }
-
-    @Override
-    public NewsLetter findById(Integer integer) {
-        NewsLetter entity = null;
-        List<NewsLetter> list = findAll();
-        for (NewsLetter newsLetter : list) {
-            if (newsLetter.getNewsletterId().equals(integer)) {
-                entity = newsLetter;
-            }
-        }
-        return entity;
-    }
-
-    @Override
-    public NewsLetter findByEmail(String email) {
-        NewsLetter entity = null;
-        List<NewsLetter> list = findAll();
-        for (NewsLetter newsLetter : list) {
-            if (newsLetter.getEmail().equals(email)) {
-                entity = newsLetter;
-            }
-        }
-        return entity;
-    }
 }

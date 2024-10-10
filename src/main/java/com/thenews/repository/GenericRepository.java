@@ -7,5 +7,4 @@ public interface GenericRepository <T, ID>{
     T update(T entity);
     boolean delete(ID id);
     List<T> findAll();
-    T findById(ID id);
 }

@@ -26,42 +26,23 @@ public class IndexServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private ConnectionManagement connectionManagement;
-
-    private NewsRepository repoNews;
-
-    private CategoryRepository repoCategory;
-
-    private NewsService serviceNews;
-
-    private CategoryService serviceCategory;
-
-    private List<News> listNews;
-
-    private List<Category> listCategory;
-
-    @Override
-    public void init() throws ServletException {
-        this.connectionManagement = new ConnectionManagement();
-
-        this.repoNews = new NewsRepoImpl(connectionManagement);
-        this.serviceNews = new NewsServiceImpl(repoNews);
-        this.listNews = new ArrayList<>();
-
-        this.repoCategory = new CategoryRepoImpl(connectionManagement);
-        this.serviceCategory = new CategoryServiceImpl(repoCategory);
-        this.listCategory = new ArrayList<>();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        CategoryService categoryService = new CategoryServiceImpl();
+//
+//        listCategory = serviceCategory.findAll();
+//        req.setAttribute("listCategory", listCategory);
 
-        listCategory = serviceCategory.findAll();
-        req.setAttribute("listCategory", listCategory);
-
-        listNews = serviceNews.findAll();
-        req.setAttribute("listNews", listNews);
+        NewsService newsService = new NewsServiceImpl(req, resp);
+        List<News> newsList = newsService.findAll();
+        req.setAttribute("listNews", newsList);
 
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

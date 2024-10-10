@@ -34,8 +34,7 @@ public class CategoryServiceImpl  implements CategoryService {
         return repo.findAll();
     }
 
-    @Override
-    public Category findById(Integer integer) {
-        return repo.findById(integer);
-    }
+//    public Category findById(Integer integer) {
+//        return repo.findById(integer);
+//    }
 }

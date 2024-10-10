@@ -169,16 +169,4 @@ public class CategoryRepoImpl implements CategoryRepository {
         }
         return list;
     }
-
-    @Override
-    public Category findById(Integer id) {
-        Category entity = null;
-        List<Category> list = findAll();
-        for (Category category : list) {
-            if (category.getCategoryId().equals(id)) {
-                entity = category;
-            }
-        }
-        return entity;
-    }
 }

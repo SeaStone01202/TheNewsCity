@@ -1,7 +1,8 @@
 package com.thenews.controller.home;
 
-import com.thenews.service.UserService;
-import com.thenews.service.impl.UserServiceImpl;
+import com.thenews.repository.impl.NewsRepoImpl;
+import com.thenews.service.NewsService;
+import com.thenews.service.impl.NewsServiceImpl;
 import com.thenews.utils.ConnectionManagement;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,20 +12,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-
+@WebServlet("/news_detail/*")
+public class NewsDetailServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/views/templates/page/login.jsp").forward(req, resp);
+        NewsServiceImpl service = new NewsServiceImpl(req, resp);
+        service.getNewsDetail();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserServiceImpl service = new UserServiceImpl(req, resp);
-        service.checkLogin();
+        super.doPost(req, resp);
     }
-
 }

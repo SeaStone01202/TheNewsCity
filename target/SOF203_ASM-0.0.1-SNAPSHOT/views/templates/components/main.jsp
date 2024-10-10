@@ -108,7 +108,7 @@
         <c:forEach var="verticalList" items="${listNews}">
             <div class="row mt-4">
                 <div class="col-12">
-                    <a href="${pageContext.request.contextPath}/<slug:toSlug input='${verticalList.title}'/>-00${verticalList.newsId}.html" style="color: black; text-decoration: none;">
+                    <a href="${pageContext.request.contextPath}/news_detail/${verticalList.newsId}" style="color: black; text-decoration: none;">
                         <h2 class="title">${verticalList.title}</h2>
                         <hr>
                         <div class="row">
