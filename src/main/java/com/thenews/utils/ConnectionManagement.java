@@ -1,4 +1,4 @@
-package com.thenews.util;
+package com.thenews.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +18,15 @@ public class ConnectionManagement {
     // Phương thức khởi tạo để đọc thông tin từ tệp db.properties
     public void init() throws IOException {
         loadDatabaseProperties();
+        loadDriver();
+    }
+
+    private void loadDriver() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     // Phương thức đọc thông tin kết nối từ tệp properties

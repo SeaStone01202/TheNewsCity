@@ -7,6 +7,7 @@
     <packaging>war</packaging>
 
     <dependencies>
+
         <!-- Jakarta EE API -->
         <dependency>
             <groupId>jakarta.platform</groupId>
@@ -42,6 +43,14 @@
             <artifactId>jakarta.el-api</artifactId>
             <version>6.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

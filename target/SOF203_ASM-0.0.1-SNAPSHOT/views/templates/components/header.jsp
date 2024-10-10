@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>Title</title>
@@ -37,12 +38,9 @@
             Thể loại
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Chính trị</a></li>
-            <li><a class="dropdown-item" href="#">Chính phủ</a></li>
-            <li><a class="dropdown-item" href="#">Công nghệ</a></li>
-            <li><a class="dropdown-item" href="#">Giáo dục</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <c:forEach var="listVerticalCategory" items="${listCategory}">
+            <li><a class="dropdown-item" href="#">${listVerticalCategory.categoryName}</a></li>
+            </c:forEach>
           </ul>
         </li>
         <li class="nav-item">
@@ -55,7 +53,7 @@
             Tài khoản
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/views/pages/page/login.jsp">Đăng nhập</a></li>
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/views/pages/page/register.jsp">Đăng ký</a></li>
           </ul>

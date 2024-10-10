@@ -11,11 +11,15 @@
   </welcome-file-list>
 
   <error-page>
-    <error-code>404</error-code>
-    <location>/views/pages/page/404.jsp</location>
+    <error-code>403</error-code>
+    <location>/views/templates/page/403.jsp</location>
   </error-page>
   <error-page>
-    <error-code>500</error-code>
-    <location>/views/pages/page/500.jsp</location>
+    <error-code>404</error-code>
+    <location>/views/templates/page/404.jsp</location>
   </error-page>
+<!--  <error-page>-->
+<!--    <error-code>500</error-code>-->
+<!--    <location>/views/templates/page/500.jsp</location>-->
+<!--  </error-page>-->
 </web-app>

@@ -1,44 +1,95 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="slug" uri="http://example.com/tags" %>
 <html>
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    <style>
+        .carousel-caption h5 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white; /* Màu chữ tiêu đề */
+            text-decoration: none; /* Không có gạch dưới */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Đổ bóng cho chữ tiêu đề */
+        }
+
+        .carousel-caption p {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Giới hạn 3 dòng cho phần content */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white; /* Màu chữ nội dung */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Đổ bóng cho chữ nội dung */
+        }
+
+        .carousel-item img {
+            max-width: 90%;
+            max-height: 500px;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto; /* Căn giữa ảnh */
+        }
+
+        .carousel-caption a {
+            color: white; /* Màu chữ của thẻ a */
+            text-decoration: none; /* Không có gạch dưới */
+        }
+
+        .carousel-caption a:hover {
+            text-decoration: underline; /* Thêm gạch dưới khi hover */
+            color: lightblue; /* Màu chữ khi hover */
+        }
+
+        .content {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Giới hạn 3 dòng cho phần content */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Hiển thị dấu ... */
+            color: black; /* Màu chữ nội dung */
+            font-size: 1rem; /* Kích thước chữ nội dung */
+        }
+
+        .content:hover {
+            text-decoration: underline; /* Thêm gạch dưới khi hover */
+            color: palevioletred; /* Màu chữ khi hover */
+        }
+
+        .title:hover {
+            text-decoration: underline; /* Thêm gạch dưới khi hover */
+            color: #b16060; /* Màu chữ khi hover */
+        }
+
+    </style>
+
 </head>
 <body>
 
 <section class="top-stories">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
+            <c:forEach var="news" items="${listNews}" varStatus="status">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${status.index}" class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+            </c:forEach>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="10000">
-                <img src="${pageContext.request.contextPath}/views/images/image01.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="${pageContext.request.contextPath}/views/templates/page/detail_news.jsp"><h5>First slide
-                        label</h5></a>
-                    <p>Some representative placeholder content for the first slide.</p>
+            <c:forEach var="news" items="${listNews}" varStatus="status">
+                <div class="carousel-item ${status.first ? 'active' : ''}" data-bs-interval="2000">
+                    <img src="${news.image}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <a href="${pageContext.request.contextPath}/views/templates/page/detail_news.jsp"><h5>${news.title}</h5></a>
+                        <p>${news.content}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="2000">
-                <img src="${pageContext.request.contextPath}/views/images/image02.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="${pageContext.request.contextPath}/views/images/image03.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                </div>
-            </div>
+            </c:forEach>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -53,107 +104,36 @@
 
 <section class="news-content mt-5">
     <div class="container">
-        <div class="row">
-            <div class="col-12"> <!-- Toàn bộ nội dung bài báo chiếm hết chiều ngang -->
-                <h2 class="title">Giá vàng nhẫn bật tăng trở lại, vàng miếng SJC duy trì mốc cao</h2>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="https://nld.mediacdn.vn/thumb_w/640/291774122806476800/2024/8/10/vang-10-17232556148051183192387.jpg" class="img-fluid" alt="News Image">
-                    </div>
-                    <div class="col-md-8">
-                        <p class="content">(NLĐO) – Giá vàng nhẫn 24K các loại chạm trở lại mốc 83 triệu đồng/lượng... </p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="date">Published on: 2024-10-03</p>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <p class="author">Author: John Doe</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Bài báo tiếp theo -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <h2 class="title">Thị trường chứng khoán bứt phá mạnh mẽ</h2>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="https://example.com/stock-market-image.jpg" class="img-fluid" alt="Stock Market Image">
-                    </div>
-                    <div class="col-md-8">
-                        <p class="content">Thị trường chứng khoán đã có một ngày giao dịch sôi động với các chỉ số chính đều tăng mạnh... </p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="date">Published on: 2024-10-03</p>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <p class="author">Author: Jane Smith</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bài báo tiếp theo -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <h2 class="title">Giá dầu tiếp tục tăng, lo ngại về nguồn cung</h2>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="https://example.com/oil-market-image.jpg" class="img-fluid" alt="Oil Market Image">
-                    </div>
-                    <div class="col-md-8">
-                        <p class="content">Giá dầu thô đã tiếp tục leo thang do những lo ngại về gián đoạn nguồn cung từ các nước sản xuất lớn... </p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="date">Published on: 2024-10-03</p>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <p class="author">Author: Mark Lee</p>
+        <c:forEach var="verticalList" items="${listNews}">
+            <div class="row mt-4">
+                <div class="col-12">
+                    <a href="${pageContext.request.contextPath}/<slug:toSlug input='${verticalList.title}'/>-00${verticalList.newsId}.html" style="color: black; text-decoration: none;">
+                        <h2 class="title">${verticalList.title}</h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="${verticalList.image}" class="img-fluid" alt="News Image">
+                            </div>
+                            <div class="col-md-8">
+                                <p class="content">${verticalList.content}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="date">Published on: ${verticalList.postedDate}</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p class="author">Author: ${verticalList.authorId}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Bài báo tiếp theo -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <h2 class="title">Công nghệ AI thay đổi ngành công nghiệp</h2>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="https://example.com/ai-industry-image.jpg" class="img-fluid" alt="AI Industry Image">
-                    </div>
-                    <div class="col-md-8">
-                        <p class="content">Công nghệ AI đang dần thay đổi cách mà các doanh nghiệp hoạt động, từ tự động hóa quy trình cho đến dự đoán thị trường... </p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="date">Published on: 2024-10-03</p>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <p class="author">Author: Sarah Connor</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </section>
-
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

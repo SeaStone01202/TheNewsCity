@@ -2,7 +2,7 @@ package com.thenews.repository.impl;
 
 import com.thenews.entity.Category;
 import com.thenews.repository.CategoryRepository;
-import com.thenews.util.ConnectionManagement;
+import com.thenews.utils.ConnectionManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
