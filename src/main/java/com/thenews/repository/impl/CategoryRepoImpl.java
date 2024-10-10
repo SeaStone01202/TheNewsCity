@@ -172,34 +172,13 @@ public class CategoryRepoImpl implements CategoryRepository {
 
     @Override
     public Category findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         Category entity = null;
-        try {
-            String query = "SELECT TOP 1 * FROM Categories WHERE Id=?";
-            connectionManager.init();
-            conn = connectionManager.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new Category();
-                entity.setCategoryId(rs.getInt("Id"));
-                entity.setCategoryName(rs.getString("Name"));
-            }
-            if (entity != null){
-                return entity;
-            }
-        } catch (SQLException exception) {
-            throw new RuntimeException("Failed to find category by ID - " + exception.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException("IO error occurred during findById operation - " + e.getMessage());
-        } finally {
-            if (conn != null) {
-                connectionManager.closeConnection(ps, rs, conn);
+        List<Category> list = findAll();
+        for (Category category : list) {
+            if (category.getCategoryId().equals(id)) {
+                entity = category;
             }
         }
-        return null;
+        return entity;
     }
 }

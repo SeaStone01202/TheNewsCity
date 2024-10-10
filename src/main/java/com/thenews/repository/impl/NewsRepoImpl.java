@@ -168,38 +168,14 @@ public class NewsRepoImpl implements NewsRepository {
 
     @Override
     public News findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         News entity = null;
-        try {
-            String query = "SELECT TOP 1 * FROM News WHERE Id = ?";
-            connectionManagement.init();
-            conn = connectionManagement.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new News();
-                entity.setNewsId(rs.getInt("Id"));
-                entity.setTitle(rs.getString("Title"));
-                entity.setContent(rs.getString("Content"));
-                entity.setImage(rs.getString("Image"));
-                entity.setPostedDate(rs.getDate("PostedDate"));
-                entity.setAuthorId(rs.getString("Author"));
-                entity.setCategoryId(rs.getString("CategoryId"));
-                entity.setHome(rs.getBoolean("Home"));
+        List<News> newsList = findAll();
+        for (News news : newsList) {
+            if (news.getNewsId().equals(id)) {
+                entity = news;
             }
-            if (entity == null) {
-                throw new RuntimeException("No news found with ID: " + id);
-            }
-        } catch (SQLException exception) {
-            throw new RuntimeException("Database error during findById operation: " + exception.getMessage(), exception);
-        } catch (IOException ex) {
-            throw new RuntimeException("I/O error during findById operation: " + ex.getMessage(), ex);
-        } finally {
-            connectionManagement.closeConnection(ps, rs, conn);
         }
         return entity;
     }
+
 }

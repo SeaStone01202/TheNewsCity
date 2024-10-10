@@ -102,34 +102,24 @@ public class NewsLetterRepoImpl implements NewsLetterRepository {
 
     @Override
     public NewsLetter findById(Integer integer) {
-        throw new UnsupportedOperationException("Find by ID operation is not implemented yet.");
+        NewsLetter entity = null;
+        List<NewsLetter> list = findAll();
+        for (NewsLetter newsLetter : list) {
+            if (newsLetter.getNewsletterId().equals(integer)) {
+                entity = newsLetter;
+            }
+        }
+        return entity;
     }
 
     @Override
     public NewsLetter findByEmail(String email) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         NewsLetter entity = null;
-        try {
-            String query = "SELECT TOP 1 * FROM NewsLetters WHERE Email = ?";
-            connectionManager.init();
-            conn = connectionManager.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setString(1, email);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new NewsLetter();
-                entity.setNewsletterId(rs.getInt("Id"));
-                entity.setEmail(rs.getString("Email"));
-                entity.setEnabled(rs.getBoolean("Enabled"));
+        List<NewsLetter> list = findAll();
+        for (NewsLetter newsLetter : list) {
+            if (newsLetter.getEmail().equals(email)) {
+                entity = newsLetter;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to find newsletter by email - " + e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException("IO error occurred while finding newsletter by email - " + e.getMessage());
-        } finally {
-            connectionManager.closeConnection(ps, rs, conn);
         }
         return entity;
     }
