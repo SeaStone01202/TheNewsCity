@@ -14,7 +14,6 @@ public class CategoryServiceImpl  implements CategoryService {
         this.repo = repo;
     }
 
-
     @Override
     public Category save(Category entity) {
         return repo.save(entity);
@@ -35,8 +34,7 @@ public class CategoryServiceImpl  implements CategoryService {
         return repo.findAll();
     }
 
-    @Override
-    public Category findById(Integer integer) {
-        return repo.findById(integer);
-    }
+//    public Category findById(Integer integer) {
+//        return repo.findById(integer);
+//    }
 }

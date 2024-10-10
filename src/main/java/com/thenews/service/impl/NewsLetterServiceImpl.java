@@ -34,8 +34,4 @@ public class NewsLetterServiceImpl implements NewsLetterService {
         return repo.findAll();
     }
 
-    @Override
-    public NewsLetter findById(Integer integer) {
-        return repo.findById(integer);
-    }
 }

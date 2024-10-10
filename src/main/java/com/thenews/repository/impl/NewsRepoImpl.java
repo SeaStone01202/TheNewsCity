@@ -2,7 +2,7 @@ package com.thenews.repository.impl;
 
 import com.thenews.entity.News;
 import com.thenews.repository.NewsRepository;
-import com.thenews.util.ConnectionManagement;
+import com.thenews.utils.ConnectionManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -164,42 +164,5 @@ public class NewsRepoImpl implements NewsRepository {
             connectionManagement.closeConnection(ps, rs, conn);
         }
         return newsList;
-    }
-
-    @Override
-    public News findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        News entity = null;
-        try {
-            String query = "SELECT TOP 1 * FROM News WHERE Id = ?";
-            connectionManagement.init();
-            conn = connectionManagement.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new News();
-                entity.setNewsId(rs.getInt("Id"));
-                entity.setTitle(rs.getString("Title"));
-                entity.setContent(rs.getString("Content"));
-                entity.setImage(rs.getString("Image"));
-                entity.setPostedDate(rs.getDate("PostedDate"));
-                entity.setAuthorId(rs.getString("Author"));
-                entity.setCategoryId(rs.getString("CategoryId"));
-                entity.setHome(rs.getBoolean("Home"));
-            }
-            if (entity == null) {
-                throw new RuntimeException("No news found with ID: " + id);
-            }
-        } catch (SQLException exception) {
-            throw new RuntimeException("Database error during findById operation: " + exception.getMessage(), exception);
-        } catch (IOException ex) {
-            throw new RuntimeException("I/O error during findById operation: " + ex.getMessage(), ex);
-        } finally {
-            connectionManagement.closeConnection(ps, rs, conn);
-        }
-        return entity;
     }
 }

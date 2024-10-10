@@ -2,7 +2,7 @@ package com.thenews.repository.impl;
 
 import com.thenews.entity.Category;
 import com.thenews.repository.CategoryRepository;
-import com.thenews.util.ConnectionManagement;
+import com.thenews.utils.ConnectionManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -168,38 +168,5 @@ public class CategoryRepoImpl implements CategoryRepository {
             connectionManager.closeConnection(ps, rs, conn);
         }
         return list;
-    }
-
-    @Override
-    public Category findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Category entity = null;
-        try {
-            String query = "SELECT TOP 1 * FROM Categories WHERE Id=?";
-            connectionManager.init();
-            conn = connectionManager.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new Category();
-                entity.setCategoryId(rs.getInt("Id"));
-                entity.setCategoryName(rs.getString("Name"));
-            }
-            if (entity != null){
-                return entity;
-            }
-        } catch (SQLException exception) {
-            throw new RuntimeException("Failed to find category by ID - " + exception.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException("IO error occurred during findById operation - " + e.getMessage());
-        } finally {
-            if (conn != null) {
-                connectionManager.closeConnection(ps, rs, conn);
-            }
-        }
-        return null;
     }
 }

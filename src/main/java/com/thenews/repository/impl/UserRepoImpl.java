@@ -2,7 +2,7 @@ package com.thenews.repository.impl;
 
 import com.thenews.entity.User;
 import com.thenews.repository.UserRepository;
-import com.thenews.util.ConnectionManagement;
+import com.thenews.utils.ConnectionManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -188,45 +188,5 @@ public class UserRepoImpl implements UserRepository {
             connectionManagement.closeConnection(ps, rs, conn);
         }
         return list;
-    }
-
-    @Override
-    public User findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        User entity = null;
-        try {
-            String query = "SELECT * FROM Users WHERE Id = ?";
-            connectionManagement.init();
-            conn = connectionManagement.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                entity = new User();
-                entity.setUserId(rs.getInt("Id"));
-                entity.setFullname(rs.getString("Fullname"));
-                entity.setPassword(rs.getString("Password"));
-                entity.setUsername(rs.getString("Username"));
-                entity.setBirthday(rs.getDate("Birthday"));
-                entity.setGender(rs.getBoolean("Gender"));
-                entity.setPhone(rs.getString("Mobile"));
-                entity.setEmail(rs.getString("Email"));
-                entity.setRole(rs.getBoolean("Role"));
-            }
-            if (entity != null) {
-                return entity;
-            }
-        } catch (SQLException exception) {
-            throw new RuntimeException("Failed to find user by ID. SQL error: " + exception.getMessage());
-        } catch (IOException exception) {
-            throw new RuntimeException("IOException occurred while managing connection: " + exception.getMessage());
-        } finally {
-            if (conn != null) {
-                connectionManagement.closeConnection(ps, rs, conn);
-            }
-        }
-        return null;
     }
 }
