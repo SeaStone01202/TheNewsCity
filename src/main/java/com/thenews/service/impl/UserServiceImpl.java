@@ -5,13 +5,17 @@ import com.thenews.repository.UserRepository;
 import com.thenews.repository.impl.UserRepoImpl;
 import com.thenews.service.UserService;
 import com.thenews.utils.ConnectionManagement;
+import com.thenews.utils.ImageUtil;
+import com.thenews.utils.JwtUtil;
 import com.thenews.utils.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -97,19 +101,46 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             if (BCrypt.checkpw(password, user.getPassword())) {
-                servletUtil.forwardToPage(loginPage);
-                System.out.println("Dang nhap thanh cong");
+                // Tạo JWT token
+                request.getSession().setAttribute("user", user);
+                System.out.println("Đăng nhập thành công");
             } else {
-                System.out.println("Dang nhap that bai");
-                return;
-            }
+                System.out.println("Đăng nhập thất bại");
+                }
         }
+        servletUtil.forwardToPage(loginPage);
     }
 
-    public static void main(String[] args) {
-        String password = "12345";
 
-        String password2 = BCrypt.hashpw(password, BCrypt.gensalt());
-        System.out.println(password2);
+    public void updateUser() throws ServletException, IOException {
+        String fullname = request.getParameter("fullname");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String birthday = request.getParameter("birthday");
+        String company = request.getParameter("company");
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+        Part filePart = request.getPart("profilePicture");
+        // Kiểm tra filePart có hợp lệ không
+        if (filePart == null || filePart.getSize() == 0) {
+            servletUtil.showError("No file uploaded.");
+            return;
+        }
+
+        // Sử dụng ImageUtil để lưu file trên server
+        String fileName;
+        try {
+            fileName = ImageUtil.saveImage(filePart, request.getServletContext());
+        } catch (IOException e) {
+            servletUtil.showError("Error saving file: " + e.getMessage());
+            return;
+        }
+
+        // Tạo đường dẫn URL tương ứng với file đã lưu
+        String imagePath = request.getServletContext().getContextPath() + "/uploads/" + fileName;
+
+
     }
+
 }

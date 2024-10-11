@@ -3,6 +3,8 @@ package com.thenews.repository.impl;
 import com.thenews.entity.User;
 import com.thenews.repository.UserRepository;
 import com.thenews.utils.ConnectionManagement;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -189,4 +191,5 @@ public class UserRepoImpl implements UserRepository {
         }
         return list;
     }
+
 }

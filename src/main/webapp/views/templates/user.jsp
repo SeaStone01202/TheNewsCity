@@ -20,7 +20,9 @@
     <nav class="navbar navbar-expand-lg navbar-light mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Blog Management</a>
-            <h3>Xin chào: admin</h3>
+            <h3>Xin chào:
+                ${user.fullname}
+            </h3>
             <h5>
                 <c:if test="${not empty sessionScope.message}">
                     <script>
@@ -56,7 +58,7 @@
                         <a class="nav-link active" href="#">Bài viết</a> <!-- Trang hiện tại -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="personalUser.jsp">Tài khoản</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/user/personal">Tài khoản</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Đăng xuất</a>

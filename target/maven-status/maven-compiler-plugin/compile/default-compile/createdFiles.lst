@@ -1,4 +1,5 @@
 com\thenews\entity\NewsLetter.class
+com\thenews\controller\admin\SendMailServlet.class
 com\thenews\service\NewsLetterService.class
 com\thenews\repository\NewsLetterRepository.class
 com\thenews\service\CategoryService.class
@@ -7,11 +8,16 @@ com\thenews\repository\impl\UserRepoImpl.class
 com\thenews\utils\DateUtils.class
 com\thenews\repository\UserRepository.class
 com\thenews\utils\ConnectionManagement.class
+com\thenews\utils\MailUtil$1.class
 com\thenews\controller\home\LoginServlet.class
 com\thenews\repository\impl\NewsRepoImpl.class
+com\thenews\utils\MailUtil.class
 com\thenews\controller\admin\AdminNewsServlet.class
 com\thenews\controller\admin\UserDetailNewsServlet.class
 com\thenews\entity\News.class
+com\thenews\utils\CodeRandom.class
+com\thenews\utils\JwtUtil.class
+com\thenews\controller\admin\UserPersonalServlet.class
 com\thenews\service\NewsService.class
 com\thenews\service\impl\NewsLetterServiceImpl.class
 com\thenews\controller\home\NewsDetailServlet.class
@@ -31,4 +37,5 @@ com\thenews\repository\CategoryRepository.class
 com\thenews\controller\admin\UserNewsServlet.class
 com\thenews\service\impl\UserServiceImpl.class
 com\thenews\service\UserService.class
+com\thenews\utils\RemoteHtmlTag.class
 com\thenews\entity\Category.class
