@@ -25,7 +25,7 @@ public class NewsRepoImpl implements NewsRepository {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            String query = "INSERT INTO news (Title, Content, Image, PostedDate, Author, CategoryId) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO news (Title, Content, Image, PostedDate, Author, CategoryId, Home) VALUES (?, ?, ?, ?, ?, ?, ?)";
             connectionManagement.init();
             conn = connectionManagement.getConnection();
             conn.setAutoCommit(false);
@@ -35,7 +35,8 @@ public class NewsRepoImpl implements NewsRepository {
             ps.setString(3, entity.getImage());
             ps.setDate(4, entity.getPostedDate());
             ps.setString(5, entity.getAuthorId());
-            ps.setString(6, entity.getCategoryId());
+            ps.setInt(6, Integer.parseInt(entity.getCategoryId()));
+            ps.setBoolean(7, entity.getIsHome());
             int result = ps.executeUpdate();
             if (result > 0) {
                 conn.commit();
@@ -44,6 +45,13 @@ public class NewsRepoImpl implements NewsRepository {
                 throw new RuntimeException("Insert operation failed: No rows were inserted.");
             }
         } catch (SQLException exception) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
             throw new RuntimeException("Database error during save operation: " + exception.getMessage(), exception);
         } catch (IOException e) {
             throw new RuntimeException("I/O error during save operation: " + e.getMessage(), e);
@@ -153,7 +161,7 @@ public class NewsRepoImpl implements NewsRepository {
                 news.setPostedDate(rs.getDate("PostedDate"));
                 news.setAuthorId(rs.getString("Author"));
                 news.setCategoryId(rs.getString("CategoryId"));
-                news.setHome(rs.getBoolean("Home"));
+                news.setIsHome(rs.getBoolean("Home"));
                 newsList.add(news);
             }
         } catch (SQLException exception) {

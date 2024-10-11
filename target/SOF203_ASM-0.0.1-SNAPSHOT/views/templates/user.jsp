@@ -1,11 +1,18 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Management</title>
-    <link rel="stylesheet" href="../css/user.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/css/user.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -14,7 +21,33 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Blog Management</a>
             <h3>Xin chào: admin</h3>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <h5>
+                <c:if test="${not empty sessionScope.message}">
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: '${sessionScope.message}',
+                            showConfirmButton: true
+                        });
+                        <c:remove var="message" scope="session" />
+                    </script>
+                </c:if>
+
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '${sessionScope.errorMessage}',
+                            showConfirmButton: true
+                        });
+                        <c:remove var="errorMessage" scope="session" />
+                    </script>
+                </c:if>
+            </h5>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -36,30 +69,33 @@
         </div>
     </nav>
 
-    <form class="form-product" method="post" enctype="multipart/form-data">
+    <form class="form-product" action="${pageContext.request.contextPath}/user/news" method="post"
+          enctype="multipart/form-data">
         <div class="row mb-4">
             <div class="form-group col-md-8">
+                <p>ID: <span>${not empty selectedNews.newsId ? selectedNews.newsId : ''}</span></p>
+                <input type="text" name="idC" value="${not empty selectedNews.newsId ? selectedNews.newsId : ''}" readonly class="form-control">
                 <label for="titleBlog">Post Title</label>
-                <input type="text" name="titleBlog" class="form-control" id="titleBlog" placeholder="Input title here">
+                <input type="text" name="title" class="form-control" id="titleBlog" placeholder="Input title here"
+                       value="${not empty selectedNews.title ? selectedNews.title : ''}">
             </div>
             <div class="form-group col-md-4">
-                <label for="selectedBlogs">Selected Categories</label>
-                <select id="selectedBlogs" class="form-control">
-                    <option value="1">News</option>
-                    <option value="2">Technology</option>
-                    <option value="3">Entertainment</option>
-                    <option value="4">Education</option>
-                    <option value="5">Politics</option>
+                <label for="selectedNews">Selected Categories</label>
+                <select id="selectedNews" name="category" class="form-control">
+                    <option value="">Select a category</option>
+                    <c:forEach var="listVerticalCategory" items="${listCategory}">
+                        <option value="${listVerticalCategory.categoryId}" ${listVerticalCategory.categoryId == selectedNews.categoryId ? 'selected' : ''}>${listVerticalCategory.categoryName}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <label>Status</label>
+                <label>Home</label>
                 <div id="activeBlog">
                     <label>
-                        <input type="radio" name="statusActive" value="1" checked> Original
+                        <input type="radio" name="home" value="true" ${selectedNews.isHome ? 'checked' : ''}> True
                     </label>
                     <label>
-                        <input type="radio" name="statusActive" value="0"> Draft
+                        <input type="radio" name="home" value="false" ${selectedNews.isHome ? 'checked' : ''}> False
                     </label>
                 </div>
             </div>
@@ -67,28 +103,41 @@
                 <label>Thumbnails</label> <br>
                 <label for="mockupID" style="cursor: pointer;">
                     <i id="blog-label-image" class="fa-solid fa-plus"></i>
-                    <img id="imagePreview" src="https://via.placeholder.com/150" alt="Thumbnail Preview" style="display: block; width: 100%; height: auto; max-height: 100px; margin-top: 10px;">
+                    <img id="imagePreview"
+                         src="${not empty selectedNews.image ? selectedNews.image : 'https://via.placeholder.com/150'}"
+                         alt="Thumbnail Preview"
+                         style="display: block; width: 100%; height: auto; max-height: 100px; margin-top: 10px;">
                 </label>
-                <input type="file" name="mockupID" class="form-control" id="mockupID" placeholder="Choose File Thumbnails" accept="image/*" style="display: none" onchange="previewImage(event)">
+                <input type="file" name="mockupID" class="form-control" id="mockupID"
+                       placeholder="Choose File Thumbnails" accept="image/*" style="display: none"
+                       onchange="previewImage(event)">
             </div>
         </div>
         <div class="row mb-3">
             <div class="form-group col-md-12">
                 <label for="contentBlog">Content</label>
-                <textarea id="contentBlog" name="contentBlog" rows="4" cols="50"></textarea>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <button type="button" id="saveButton" name="action" value="save" class="btn btn-success">Save</button>
-                <button type="button" id="updateButton" name="action" value="update" class="btn btn-primary" disabled>Update</button>
-                <button type="button" id="deleteButton" name="action" value="delete" class="btn btn-danger" disabled>Delete</button>
-                <button type="button" id="refreshButton" name="action" value="refresh" class="btn btn-secondary">Refresh</button>
+                <textarea id="contentBlog" name="content" rows="4" cols="50">
+                     <c:out value="${not empty selectedNews.content ? selectedNews.content : ''}"/>
+                 </textarea>
             </div>
         </div>
 
-        <p hidden="hidden" id="idBlogHidden"></p>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <button type="submit" id="saveButton" name="action" value="save" class="btn btn-success">Save</button>
+                <button type="submit" id="updateButton" name="action" value="update" class="btn btn-primary">
+                    Update
+                </button>
+                <button type="submit" id="deleteButton" name="action" value="delete" class="btn btn-danger">
+                    Delete
+                </button>
+                <button type="button" id="refreshButton" class="btn btn-secondary" onclick="clearForm()">
+                    Refresh
+                </button>
+            </div>
+        </div>
     </form>
+
     <br>
     <hr>
     <div class="card">
@@ -105,22 +154,18 @@
                 </tr>
                 </thead>
                 <tbody id="table-blog-result">
-                <tr class="table-blog" data-blog-id="1">
-                    <td>1</td>
-                    <td>Technology</td>
-                    <td class="fixed-width-title">Blog Title 1</td>
-                    <td class="mockup-cell"><img src="../images/image01.jpg" alt="Thumbnail 1"></td>
-                    <td>Original</td>
-                    <td><button class="btn btn-warning edit-button" data-blog-id="1">Edit</button></td>
-                </tr>
-                <tr class="table-blog" data-blog-id="2">
-                    <td>2</td>
-                    <td>Education</td>
-                    <td class="fixed-width-title">Blog Title 2</td>
-                    <td class="mockup-cell"><img src="../images/image02.jpg" alt="Thumbnail 2"></td>
-                    <td>Draft</td>
-                    <td><button class="btn btn-warning edit-button" data-blog-id="2">Edit</button></td>
-                </tr>
+                <c:forEach var="news" items="${listNews}">
+                    <tr class="table-blog" data-blog-id="${news.newsId}">
+                        <td>${news.newsId}</td>
+                        <td>${news.categoryId}</td>
+                        <td class="fixed-width-title">${news.title}</td>
+                        <td class="mockup-cell"><img src="${news.image}" alt="Thumbnail 1"></td>
+                        <td>${news.isHome}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/user/news/detail?id=${news.newsId}">Edit</a>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="col-lg-12">
@@ -142,70 +187,37 @@
     // Thay thế textarea bằng CKEditor
     CKEDITOR.replace('contentBlog');
 
-    // Hàm xử lý chỉnh sửa bài viết
-    function editBlog(id, title, content) {
-        document.getElementById("titleBlog").value = title;
-        CKEDITOR.instances.contentBlog.setData(content);
-
-        const saveButton = document.getElementById("saveButton");
-        const updateButton = document.getElementById("updateButton");
-        const deleteButton = document.getElementById("deleteButton");
-
-        saveButton.disabled = true;
-        updateButton.disabled = false;
-        deleteButton.disabled = false;
-
-        updateButton.style.backgroundColor = "#4CAF50";
-        deleteButton.style.backgroundColor = "#f44336";
-    }
-
-    // Hàm reset form
-    function resetForm() {
-        document.querySelector('.form-product').reset();
-        CKEDITOR.instances.contentBlog.setData('');
-
-        const saveButton = document.getElementById("saveButton");
-        const updateButton = document.getElementById("updateButton");
-        const deleteButton = document.getElementById("deleteButton");
-
-        saveButton.disabled = false;
-        updateButton.disabled = true;
-        deleteButton.disabled = true;
-
-        updateButton.style.backgroundColor = "#cccccc";
-        deleteButton.style.backgroundColor = "#cccccc";
-    }
-
-    // Hàm xem trước hình ảnh đã tải lên
+    // Hàm xem trước hình ảnh
     function previewImage(event) {
-        const imagePreview = document.getElementById('imagePreview');
-        const file = event.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-        }
+        const imagePreview = document.getElementById("imagePreview");
+        imagePreview.src = URL.createObjectURL(event.target.files[0]);
     }
 
-    // Xử lý trạng thái hoạt động cho các liên kết điều hướng
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.nav-link');
+    function clearForm() {
+        // Xóa giá trị ID
+        document.getElementById("idBlogHidden").innerText = "ID: "; // Nếu bạn cần giữ label nhưng xóa giá trị
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // Xóa lớp active từ tất cả các liên kết
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                // Thêm lớp active vào liên kết được nhấn
-                this.classList.add('active');
-            });
-        });
-    });
+        // Xóa giá trị Title
+        document.getElementById("titleBlog").value = "";
+
+        // Xóa giá trị Content
+        CKEDITOR.instances['contentBlog'].setData(""); // Nếu bạn đang sử dụng CKEditor
+
+        // Xóa giá trị Category
+        document.getElementById("selectedNews").selectedIndex = 0; // Chọn option đầu tiên
+
+        // Xóa giá trị Home (Radio)
+        const homeRadios = document.getElementsByName("home");
+        homeRadios.forEach(radio => radio.checked = false); // Bỏ chọn tất cả
+
+        // Khôi phục hình ảnh về mặc định
+        const imagePreview = document.getElementById("imagePreview");
+        imagePreview.src = "https://via.placeholder.com/150"; // Đường dẫn đến hình ảnh mặc định
+        document.getElementById("mockupID").value = ""; // Xóa giá trị file input
+    }
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb+46A0jJt+L5vN5m5hGfmBv9z8qO1fef2N27FVWZBpxhN0bB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-6He0B+F5IOVpO3U4KmMR7p8gvZktmY4qF9+hLNpeBzFG+mbTDAV8UxRAc0uZrjD5" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-7Q1s1U/+ON7QzqQ6vfdmW4HCOOiQk3skRoM3Db8E8WmjG/3bNQtnv/fHjxK9sco7"
+        crossorigin="anonymous"></script>
 </body>
 </html>

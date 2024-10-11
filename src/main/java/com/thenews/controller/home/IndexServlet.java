@@ -26,13 +26,11 @@ public class IndexServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        CategoryService categoryService = new CategoryServiceImpl();
-//
-//        listCategory = serviceCategory.findAll();
-//        req.setAttribute("listCategory", listCategory);
+        CategoryService categoryService = new CategoryServiceImpl(req, resp);
+        List<Category> categoryList = categoryService.findAll();
+        req.setAttribute("listCategory", categoryList);
 
         NewsService newsService = new NewsServiceImpl(req, resp);
         List<News> newsList = newsService.findAll();
