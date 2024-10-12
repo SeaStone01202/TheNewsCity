@@ -69,11 +69,11 @@
     </div>
   </nav>
 
-  <form class="form-category" action="${pageContext.request.contextPath}/user/category" method="post">
+  <form class="form-category" action="${pageContext.request.contextPath}/admin/category" method="post">
     <div class="row mb-4">
       <div class="form-group col-md-6">
-        <p>ID Loại tin: <span>${not empty selectedCategory.categoryId ? selectedCategory.categoryId : ''}</span></p>
-        <input type="hidden" name="id" value="${not empty selectedCategory.categoryId ? selectedCategory.categoryId : ''}" class="form-control">
+        <p>ID Loại tin: <span id="categoryIdDisplay">${not empty selectedCategory.categoryId ? selectedCategory.categoryId : ''}</span></p>
+        <input type="hidden" id="categoryId" name="categoryId" value="${not empty selectedCategory.categoryId ? selectedCategory.categoryId : ''}">
         <label for="categoryName">Tên loại tin</label>
         <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Nhập tên loại tin"
                value="${not empty selectedCategory.categoryName ? selectedCategory.categoryName : ''}">
@@ -108,7 +108,7 @@
             <td>${category.categoryId}</td>
             <td>${category.categoryName}</td>
             <td>
-              <a href="${pageContext.request.contextPath}/user/category/detail?id=${category.categoryId}">Sửa</a>
+              <a href="${pageContext.request.contextPath}/admin/category/detail?ids=${category.categoryId}">Sửa</a>
             </td>
           </tr>
         </c:forEach>
@@ -120,8 +120,17 @@
 
 <script>
   function clearForm() {
+    // Xóa nội dung của thẻ span hiển thị ID
+    document.getElementById("categoryIdDisplay").innerText = "";
+
+    // Làm trống trường nhập tên loại tin
     document.getElementById("categoryName").value = "";
+
+    // Làm trống giá trị của trường hidden categoryId
+    document.getElementById("categoryId").value = "";
   }
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-7Q1s1U/+ON7QzqQ6vfdmW4HCOOiQk3skRoM3Db8E8WmjG/3bNQtnv/fHjxK9sco7"
