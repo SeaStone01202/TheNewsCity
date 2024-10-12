@@ -1,5 +1,7 @@
 package com.thenews.controller.admin;
 
+import com.thenews.service.impl.NewsServiceImpl;
+import com.thenews.service.impl.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,7 +29,8 @@ public class UserPersonalServlet extends HttpServlet {
         System.out.println("validate: " + validate);
         String userInputCodeValidate = req.getParameter("verificationCode");
         if (validate.equals(userInputCodeValidate)) {
-
+            UserServiceImpl service = new UserServiceImpl(req, resp);
+            service.updateUser();
         }
     }
 }

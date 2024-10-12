@@ -75,8 +75,8 @@
           enctype="multipart/form-data">
         <div class="row mb-4">
             <div class="form-group col-md-8">
-                <p>ID: <span>${not empty selectedNews.newsId ? selectedNews.newsId : ''}</span></p>
-                <input type="text" name="idC" value="${not empty selectedNews.newsId ? selectedNews.newsId : ''}" readonly class="form-control">
+                <p id="idBlogHidden">ID: <span>${not empty selectedNews.newsId ? selectedNews.newsId : ''}</span></p>
+                <input id="idBlogHidden2" type="text" name="idC" value="${not empty selectedNews.newsId ? selectedNews.newsId : ''}" readonly class="form-control">
                 <label for="titleBlog">Post Title</label>
                 <input type="text" name="title" class="form-control" id="titleBlog" placeholder="Input title here"
                        value="${not empty selectedNews.title ? selectedNews.title : ''}">
@@ -197,7 +197,9 @@
 
     function clearForm() {
         // Xóa giá trị ID
-        document.getElementById("idBlogHidden").innerText = "ID: "; // Nếu bạn cần giữ label nhưng xóa giá trị
+        document.getElementById("idBlogHidden").innerText = "ID: ";
+
+        document.getElementById("idBlogHidden2").value = "";
 
         // Xóa giá trị Title
         document.getElementById("titleBlog").value = "";

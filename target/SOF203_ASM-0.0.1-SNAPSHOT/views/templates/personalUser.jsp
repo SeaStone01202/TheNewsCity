@@ -22,7 +22,33 @@
     <nav class="navbar navbar-expand-lg navbar-light mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Blog Management</a>
+            <input hidden="hidden" disabled name="username" value="${user.username}">
             <h3>Xin chào: ${user.fullname}</h3>
+            <h5>
+                <c:if test="${not empty sessionScope.message}">
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: '${sessionScope.message}',
+                            showConfirmButton: true
+                        });
+                        <c:remove var="message" scope="session" />
+                    </script>
+                </c:if>
+
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '${sessionScope.errorMessage}',
+                            showConfirmButton: true
+                        });
+                        <c:remove var="errorMessage" scope="session" />
+                    </script>
+                </c:if>
+            </h5>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -63,18 +89,8 @@
         </div>
 
         <div class="mb-4">
-            <label for="address">Địa chỉ</label>
-            <input type="text" name="address" class="form-control" id="address" placeholder="Nhập địa chỉ">
-        </div>
-
-        <div class="mb-4">
             <label for="dob">Ngày tháng năm sinh</label>
             <input type="date" name="birthday" class="form-control" id="dob">
-        </div>
-
-        <div class="mb-4">
-            <label for="company">Công ty làm việc</label>
-            <input type="text" name="company" class="form-control" id="company" placeholder="Nhập tên công ty">
         </div>
 
         <div class="mb-4">
