@@ -2,10 +2,12 @@ package com.thenews.controller.home;
 
 import com.thenews.entity.Category;
 import com.thenews.entity.News;
+import com.thenews.entity.User;
 import com.thenews.service.CategoryService;
 import com.thenews.service.NewsService;
 import com.thenews.service.impl.CategoryServiceImpl;
 import com.thenews.service.impl.NewsServiceImpl;
+import com.thenews.service.impl.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,7 +32,14 @@ public class IndexServlet extends HttpServlet {
         NewsService newsService = new NewsServiceImpl(req, resp);
         List<News> newsList = newsService.findAll();
         List<News> listResponse = new ArrayList<News>();
+
+        UserServiceImpl serviceUser = new UserServiceImpl(req, resp);
+        List<User> userList = serviceUser.findAll();
         for (News news : newsList) {
+            User user = serviceUser.findById(Integer.parseInt(news.getAuthorId()));
+            if (user != null) {
+                news.setAuthorId(user.getFullname());
+            }
             if (news.getIsHome()){
                 listResponse.add(news);
             }

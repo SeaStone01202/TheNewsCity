@@ -2,8 +2,10 @@ package com.thenews.service.impl;
 
 import com.thenews.entity.Category;
 import com.thenews.entity.News;
+import com.thenews.entity.User;
 import com.thenews.repository.NewsRepository;
 import com.thenews.repository.impl.NewsRepoImpl;
+import com.thenews.repository.impl.UserRepoImpl;
 import com.thenews.service.CategoryService;
 import com.thenews.service.NewsService;
 import com.thenews.utils.ConnectionManagement;
@@ -29,7 +31,7 @@ public class NewsServiceImpl implements NewsService {
     private List<News> newsList;
     private List<Category> categoryList;
     private CategoryService categoryService;
-
+    private UserServiceImpl userServiceImpl;
 
     private static final Logger logger = Logger.getLogger(NewsServiceImpl.class.getName());
 
@@ -42,6 +44,7 @@ public class NewsServiceImpl implements NewsService {
         this.newsList = null;
         this.categoryList = null;
         this.categoryService = new CategoryServiceImpl(request, response);
+        this.userServiceImpl = new UserServiceImpl(request, response);
     }
 
     @Override
@@ -77,7 +80,11 @@ public class NewsServiceImpl implements NewsService {
             String newsId = pathInfo.split("/")[1]; // Lấy newsId từ URL
             News news = findById(Integer.parseInt(newsId)); // Tìm tin tức theo ID
 
+            List<User> userList = userServiceImpl.findAll();
+            User selectedUser = userList.stream().filter(user -> user.getUserId().equals(Integer.parseInt(news.getAuthorId()))).findFirst().orElse(null);
+
             if (news != null) {
+                request.setAttribute("selectedUser", selectedUser);
                 request.setAttribute("news", news); // Đưa tin tức vào thuộc tính request
                 request.getRequestDispatcher("/views/templates/page/detail_news.jsp").forward(request, response);
             } else {
@@ -193,7 +200,7 @@ public class NewsServiceImpl implements NewsService {
     public void selectNews() throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         newsList = repo.findAll(); // Lấy tất cả bài viết
-        News selectedEntity = newsList.stream().filter(news -> news.getNewsId().equals(id)).findFirst().orElse(null);
+        News selectedEntity = findById(id);
 
         // Đưa bài viết đã chọn vào request
         if (selectedEntity != null) {
