@@ -42,7 +42,21 @@
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <c:choose>
-          <c:when test="${not empty sessionScope.user}">
+          <c:when test="${user.role == true }">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tài khoản
+              </a>
+              <ul class="dropdown-menu">
+                <p>Xin chào: ${user.fullname}</p>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/news_letter">News_letter</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/category">Cập nhật thể loại</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
+              </ul>
+            </li>
+          </c:when>
+          <c:when test="${user.role == false }">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Tài khoản
@@ -64,7 +78,7 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/views/pages/page/register.jsp">Đăng ký</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
               </ul>
             </li>
           </c:otherwise>

@@ -53,16 +53,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/user/news">Tin tức</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/admin/news_letter">News_letter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Loại tin</a> <!-- Trang hiện tại -->
+            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/category">Category</a> <!-- Trang hiện tại -->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Đăng xuất</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../index.jsp">Chuyển sang trang chính</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/index">Chuyển sang trang chính</a>
           </li>
         </ul>
       </div>
