@@ -58,13 +58,13 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/user/news">Bài viết</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Tài khoản</a> <!-- Trang hiện tại -->
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/user/personal">Tài khoản</a> <!-- Trang hiện tại -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Đăng xuất</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../index.jsp">Chuyển sang trang chính</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/index">Chuyển sang trang chính</a>
                     </li>
                 </ul>
             </div>
