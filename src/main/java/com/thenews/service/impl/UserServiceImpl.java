@@ -4,14 +4,16 @@ import com.thenews.entity.User;
 import com.thenews.repository.UserRepository;
 import com.thenews.repository.impl.UserRepoImpl;
 import com.thenews.service.UserService;
-import com.thenews.utils.ConnectionManagement;
-import com.thenews.utils.ServletUtil;
+import com.thenews.utils.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.sql.Date;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -97,19 +99,64 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             if (BCrypt.checkpw(password, user.getPassword())) {
-                servletUtil.forwardToPage(loginPage);
-                System.out.println("Dang nhap thanh cong");
+                request.getSession().setAttribute("user", user);
+                System.out.println("Đăng nhập thành công");
             } else {
-                System.out.println("Dang nhap that bai");
-                return;
-            }
+                System.out.println("Đăng nhập thất bại");
+                }
         }
+        servletUtil.forwardToPage(loginPage);
     }
 
-    public static void main(String[] args) {
-        String password = "12345";
 
-        String password2 = BCrypt.hashpw(password, BCrypt.gensalt());
-        System.out.println(password2);
+    public void updateUser() throws ServletException, IOException {
+        User entity = (User) request.getSession().getAttribute("user");
+        String fullname = request.getParameter("fullName");
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+
+        if (BCrypt.checkpw(oldPassword, entity.getPassword())) {
+            entity.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+        }
+
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String birthday = request.getParameter("birthday");
+        System.out.println(birthday);
+
+//        Part filePart = request.getPart("profilePicture");
+//        // Kiểm tra filePart có hợp lệ không
+//        if (filePart == null || filePart.getSize() == 0) {
+//            servletUtil.showError("No file uploaded.");
+//            return;
+//        }
+//
+//        // Sử dụng ImageUtil để lưu file trên server
+//        String fileName;
+//        try {
+//            fileName = ImageUtil.saveImage(filePart, request.getServletContext());
+//        } catch (IOException e) {
+//            servletUtil.showError("Error saving file: " + e.getMessage());
+//            return;
+//        }
+//
+//        // Tạo đường dẫn URL tương ứng với file đã lưu
+//        String imagePath = request.getServletContext().getContextPath() + "/uploads/" + fileName;
+
+        entity.setFullname(fullname);
+        entity.setEmail(email);
+        entity.setPhone(phone);
+        entity.setBirthday(Date.valueOf(birthday));
+        update(entity);
+         User entityCheck  = update(entity);
+         if (entityCheck != null) {
+             request.getSession().setAttribute("message", "User updated successfully!");
+             response.sendRedirect(request.getContextPath() + "/user/personal");
+         } else {
+             request.getSession().setAttribute("message", "User updated error!");
+             response.sendRedirect(request.getContextPath() + "/user/personal");
+         }
+
     }
+
 }

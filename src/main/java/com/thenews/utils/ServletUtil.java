@@ -21,4 +21,12 @@ public class ServletUtil {
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }
+
+    public void directToPage(String page) throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + page);
+    }
+
+    public void showError(String message) {
+        request.setAttribute("message", message);
+    }
 }

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="slug" uri="http://example.com/tags" %>
 <html>
 <head>
     <title>Title</title>
@@ -50,7 +49,7 @@
 
         .content {
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Giới hạn 3 dòng cho phần content */
+            -webkit-line-clamp: 3; /* Giới hạn 3 dòng cho phần nội dung */
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis; /* Hiển thị dấu ... */
@@ -61,6 +60,10 @@
         .content:hover {
             text-decoration: underline; /* Thêm gạch dưới khi hover */
             color: palevioletred; /* Màu chữ khi hover */
+        }
+
+        .title {
+            color: black; /* Màu chữ tiêu đề */
         }
 
         .title:hover {
@@ -76,16 +79,16 @@
 <section class="top-stories">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <c:forEach var="news" items="${listNews}" varStatus="status">
+            <c:forEach var="news" items="${listResponse}" varStatus="status">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${status.index}" class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
             </c:forEach>
         </div>
         <div class="carousel-inner">
-            <c:forEach var="news" items="${listNews}" varStatus="status">
+            <c:forEach var="news" items="${listResponse}" varStatus="status">
                 <div class="carousel-item ${status.first ? 'active' : ''}" data-bs-interval="2000">
                     <img src="${news.image}" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <a href="${pageContext.request.contextPath}/views/templates/page/detail_news.jsp"><h5>${news.title}</h5></a>
+                        <a href="${pageContext.request.contextPath}/news_detail/${news.newsId}"><h5>${news.title}</h5></a>
                         <p>${news.content}</p>
                     </div>
                 </div>
@@ -104,19 +107,23 @@
 
 <section class="news-content mt-5">
     <div class="container">
-
         <c:forEach var="verticalList" items="${listNews}">
             <div class="row mt-4">
                 <div class="col-12">
                     <a href="${pageContext.request.contextPath}/news_detail/${verticalList.newsId}" style="color: black; text-decoration: none;">
-                        <h2 class="title">${verticalList.title}</h2>
+                        <h2 class="title">
+                            <c:out value="${verticalList.title}" />
+                        </h2>
                         <hr>
                         <div class="row">
                             <div class="col-md-4">
                                 <img src="${verticalList.image}" class="img-fluid" alt="News Image">
                             </div>
                             <div class="col-md-8">
-                                <p class="content">${verticalList.content}</p>
+                                <p class="content">
+<%--                                    <c:out value="${RemoteHtmlTag.removeHtmlTags(verticalList.content)}" />--%>
+                                    <c:out value="${verticalList.content}" />                                </p>
+                                </p>
                             </div>
                         </div>
                     </a>

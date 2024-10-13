@@ -18,7 +18,7 @@
         <section class="col-12 col-md-9">
             <article>
                 <h1>${news.title}</h1>
-                <h3>Tác giả: ${news.authorId}</h3>
+                <h3>Tác giả: ${selectedUser.fullname}</h3>
                 <h3>Ngày đăng: ${news.postedDate}</h3>
                 <img src="${news.image}" alt="Hình ảnh bài báo" class="img-fluid mb-3">
                 <p>${news.content}</p>
