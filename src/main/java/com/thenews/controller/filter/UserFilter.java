@@ -18,12 +18,12 @@ public class UserFilter implements Filter {
 
         User userchcek = (User) ((HttpServletRequest) request).getSession().getAttribute("user");
         if (userchcek == null) {
-            ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/index");
+            req.getRequestDispatcher( "/views/templates/page/403.jsp").forward(request, response);
         } else {
             if (!userchcek.isRole()) {
                 chain.doFilter(request, response);
             } else {
-                ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/index");
+                req.getRequestDispatcher( "/views/templates/page/403.jsp").forward(request, response);
             }
         }
     }

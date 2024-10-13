@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/index")
@@ -28,6 +29,13 @@ public class IndexServlet extends HttpServlet {
 
         NewsService newsService = new NewsServiceImpl(req, resp);
         List<News> newsList = newsService.findAll();
+        List<News> listResponse = new ArrayList<News>();
+        for (News news : newsList) {
+            if (news.getIsHome()){
+                listResponse.add(news);
+            }
+        }
+        req.setAttribute("listResponse", listResponse);
         req.setAttribute("listNews", newsList);
 
         req.getRequestDispatcher("/index.jsp").forward(req, resp);

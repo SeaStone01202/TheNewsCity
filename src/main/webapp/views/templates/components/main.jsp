@@ -79,16 +79,16 @@
 <section class="top-stories">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <c:forEach var="news" items="${listNews}" varStatus="status">
+            <c:forEach var="news" items="${listResponse}" varStatus="status">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${status.index}" class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
             </c:forEach>
         </div>
         <div class="carousel-inner">
-            <c:forEach var="news" items="${listNews}" varStatus="status">
+            <c:forEach var="news" items="${listResponse}" varStatus="status">
                 <div class="carousel-item ${status.first ? 'active' : ''}" data-bs-interval="2000">
                     <img src="${news.image}" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <a href="${pageContext.request.contextPath}/views/templates/page/detail_news.jsp"><h5>${news.title}</h5></a>
+                        <a href="${pageContext.request.contextPath}/news_detail/${news.newsId}"><h5>${news.title}</h5></a>
                         <p>${news.content}</p>
                     </div>
                 </div>
