@@ -91,7 +91,6 @@ public class UserServiceImpl implements UserService {
 
 
     public void checkLogin() throws ServletException, IOException {
-        String loginPage = "/index";
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -100,12 +99,13 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             if (BCrypt.checkpw(password, user.getPassword())) {
                 request.getSession().setAttribute("user", user);
-                System.out.println("Đăng nhập thành công");
+                request.getSession().setAttribute("message", "Đăng nhập thành công!");
+                response.sendRedirect(request.getContextPath() + "/index");
             } else {
-                System.out.println("Đăng nhập thất bại");
+                request.getSession().setAttribute("errorMessage", "Sai tài khoản hoặc mật khẩu!");
+                response.sendRedirect(request.getContextPath() + "/login");
                 }
         }
-        servletUtil.forwardToPage(loginPage);
     }
 
 
@@ -124,25 +124,6 @@ public class UserServiceImpl implements UserService {
         String birthday = request.getParameter("birthday");
         System.out.println(birthday);
 
-//        Part filePart = request.getPart("profilePicture");
-//        // Kiểm tra filePart có hợp lệ không
-//        if (filePart == null || filePart.getSize() == 0) {
-//            servletUtil.showError("No file uploaded.");
-//            return;
-//        }
-//
-//        // Sử dụng ImageUtil để lưu file trên server
-//        String fileName;
-//        try {
-//            fileName = ImageUtil.saveImage(filePart, request.getServletContext());
-//        } catch (IOException e) {
-//            servletUtil.showError("Error saving file: " + e.getMessage());
-//            return;
-//        }
-//
-//        // Tạo đường dẫn URL tương ứng với file đã lưu
-//        String imagePath = request.getServletContext().getContextPath() + "/uploads/" + fileName;
-
         entity.setFullname(fullname);
         entity.setEmail(email);
         entity.setPhone(phone);
@@ -159,4 +140,35 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public void selectedUser() {
+        User userSelected = (User) request.getSession().getAttribute("user");
+
+    }
+
+
+    public void createUser() throws IOException {
+        String username = request.getParameter("username");
+        String fullname = request.getParameter("fullname");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        User userRequest = new User();
+        userRequest.setFullname(fullname);
+        userRequest.setRole(false);
+        userRequest.setUsername(username);
+        userRequest.setEmail(email);
+        userRequest.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+
+        User createdUser = new User();
+        try {
+            createdUser = save(userRequest);
+            if (createdUser != null) {
+                request.getSession().setAttribute("message", "Tạo tài khoản thành công!");
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
+        } catch (Exception e) {
+            request.getSession().setAttribute("errorMessage", "Username hoặc email đã tồn tại !");
+            response.sendRedirect(request.getContextPath() + "/register");
+        }
+    }
 }

@@ -72,7 +72,7 @@ public class NewsRepoImpl implements NewsRepository {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            String query = "UPDATE News SET Title = ?, Content = ?, Image = ?, PostedDate = ?, CategoryId = ? WHERE Id = ?";
+            String query = "UPDATE News SET Title = ?, Content = ?, Image = ?, PostedDate = ?, CategoryId = ?, Home = ? WHERE Id = ?";
             connectionManagement.init();
             conn = connectionManagement.getConnection();
             conn.setAutoCommit(false);
@@ -82,7 +82,8 @@ public class NewsRepoImpl implements NewsRepository {
             ps.setString(3, entity.getImage());
             ps.setDate(4, entity.getPostedDate());
             ps.setString(5, entity.getCategoryId());
-            ps.setInt(6, entity.getNewsId());
+            ps.setBoolean(6, entity.getIsHome());
+            ps.setInt(7, entity.getNewsId());
             int result = ps.executeUpdate();
             if (result > 0) {
                 conn.commit();

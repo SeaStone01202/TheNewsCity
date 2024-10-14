@@ -94,10 +94,10 @@
                 <label>Home</label>
                 <div id="activeBlog">
                     <label>
-                        <input type="radio" name="home" value="true" ${selectedNews.isHome ? 'checked' : ''}> True
+                        <input type="radio" name="home" value="true" ${selectedNews.isHome == true ? 'checked' : ''}> True
                     </label>
                     <label>
-                        <input type="radio" name="home" value="false" ${selectedNews.isHome ? 'checked' : ''}> False
+                        <input type="radio" name="home" value="false" ${selectedNews.isHome == false ? 'checked' : ''}> False
                     </label>
                 </div>
             </div>

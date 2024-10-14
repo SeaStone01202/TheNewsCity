@@ -27,19 +27,17 @@ public class UserRepoImpl implements UserRepository {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            String query = "insert into Users (Fullname, Password, Username, Birthday, Gender, Mobile, Email) " +
-                    "values(?,?,?,?,?,?,?)";
+            String query = "insert into Users (Username, Email, Password, Role, Fullname) " +
+                    "values(?,?,?,?,?)";
             connectionManagement.init();
             conn = connectionManagement.getConnection();
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(query);
-            ps.setString(1, entity.getFullname());
-            ps.setString(2, entity.getPassword());
-            ps.setString(3, entity.getUsername());
-            ps.setDate(4, entity.getBirthday());
-            ps.setBoolean(5, entity.isGender());
-            ps.setString(6, entity.getPhone());
-            ps.setString(7, entity.getEmail());
+            ps.setString(1, entity.getUsername());
+            ps.setString(2, entity.getEmail());
+            ps.setString(3, entity.getPassword());
+            ps.setBoolean(4, entity.isRole());
+            ps.setString(5, entity.getFullname());
             int result = ps.executeUpdate();
             if (result > 0) {
                 conn.commit();
