@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/css/user.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* CSS để điều chỉnh kích thước ảnh đại diện */
         #profileImagePreview {
@@ -75,22 +79,22 @@
         <!-- Nhập thông tin cá nhân -->
         <div class="mb-4">
             <label for="fullName">Họ và tên</label>
-            <input type="text" name="fullName" class="form-control" id="fullName" placeholder="Nhập họ và tên">
+            <input type="text" name="fullName" class="form-control" id="fullName" placeholder="Nhập họ và tên" value="${user.fullname}">
         </div>
 
         <div class="mb-4">
             <label for="email">Email</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="Nhập email">
+            <input type="email" name="email" class="form-control" id="email" placeholder="Nhập email" value="${user.email}" disabled>
         </div>
 
         <div class="mb-4">
             <label for="phone">Số điện thoại</label>
-            <input type="text" name="phone" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+            <input type="text" name="phone" class="form-control" id="phone" placeholder="Nhập số điện thoại" value="${user.phone}">
         </div>
 
         <div class="mb-4">
             <label for="dob">Ngày tháng năm sinh</label>
-            <input type="date" name="birthday" class="form-control" id="dob">
+            <input type="date" name="birthday" class="form-control" id="dob" value="${user.birthday}">
         </div>
 
         <div class="mb-4">
@@ -103,14 +107,14 @@
             <input type="password" name="newPassword" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới">
         </div>
 
-        <div class="mb-4">
-            <label for="profilePicture">Ảnh đại diện</label>
-            <label for="profilePictureInput" style="cursor: pointer;">
-                <i id="profile-label-image" class="fa-solid fa-plus"></i>
-                <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="Ảnh đại diện" class="img-fluid" style="margin-top: 10px; border-radius: 5%;">
-            </label>
-            <input type="file" name="profilePicture" class="form-control" id="profilePictureInput" accept="image/*" style="display: none" onchange="previewProfileImage(event)">
-        </div>
+<%--        <div class="mb-4">--%>
+<%--            <label for="profilePicture">Ảnh đại diện</label>--%>
+<%--            <label for="profilePictureInput" style="cursor: pointer;">--%>
+<%--                <i id="profile-label-image" class="fa-solid fa-plus"></i>--%>
+<%--                <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="Ảnh đại diện" class="img-fluid" style="margin-top: 10px; border-radius: 5%;">--%>
+<%--            </label>--%>
+<%--            <input type="file" name="profilePicture" class="form-control" id="profilePictureInput" accept="image/*" style="display: none" onchange="previewProfileImage(event)">--%>
+<%--        </div>--%>
 
         <div class="mb-4">
             <label for="verificationCode">Mã xác thực</label>
@@ -134,16 +138,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Chức năng xem trước ảnh đại diện
-        document.getElementById('profilePictureInput').addEventListener('change', previewProfileImage);
-
         // Gán sự kiện click cho nút gửi mã xác thực
         document.getElementById('sendVerificationCode').addEventListener('click', sendVerificationCode);
 
         // Gán sự kiện click cho nút "Làm mới"
         document.querySelector('.btn-secondary').addEventListener('click', resetPersonalForm); // Sửa đổi đây
 
-        // Hàm gửi mã xác thực
         function sendVerificationCode() {
             const sendButton = document.getElementById('sendVerificationCode');
             const countdownElement = document.getElementById('countdown');
@@ -158,8 +158,8 @@
                 countdown--;
 
                 if (countdown < 0) {
-                    clearInterval(countdownInterval);
-                    sendButton.disabled = false; // Kích hoạt lại nút sau 60 giây
+                    clearInterval(countdownInterval); // Dừng bộ đếm khi kết thúc
+                    sendButton.disabled = false; // Kích hoạt lại nút gửi
                     countdownElement.style.display = 'none'; // Ẩn bộ đếm ngược
                 }
             }, 1000);
@@ -172,31 +172,35 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        alert('Mã xác thực đã được gửi!');
+                        // Hiển thị thông báo thành công
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Mã xác thực đã được gửi đến email!',
+                            showConfirmButton: true
+                        });
                     } else {
-                        alert('Có lỗi xảy ra khi gửi mã xác thực!');
+                        // Xử lý lỗi và dừng bộ đếm nếu có lỗi
+                        clearInterval(countdownInterval); // Dừng bộ đếm ngay khi có lỗi
+                        sendButton.disabled = false; // Kích hoạt lại nút gửi
+                        countdownElement.style.display = 'none'; // Ẩn bộ đếm
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi gửi mã xác thực!',
+                            showConfirmButton: true
+                        });
                     }
                 }
             };
 
-            // Gửi email qua AJAX, sử dụng EL để lấy email từ session
+            // Gửi email qua AJAX
             xhr.send('email=' + encodeURIComponent('${user.email}'));
         }
 
 
-        // Hàm xem trước ảnh đại diện
-        function previewProfileImage(event) {
-            const imagePreview = document.getElementById('profileImagePreview');
-            const file = event.target.files[0];
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
 
         // Hàm reset form
         function resetPersonalForm() {

@@ -11,6 +11,10 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/registrations/registration-3/assets/css/registration-3.css">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Đặt màu nền cho cả trang */
         body {
@@ -38,6 +42,7 @@
             height: 100%;
         }
     </style>
+
 </head>
 <body>
 <%--Header--%>
@@ -46,6 +51,31 @@
 <!-- Main-->
 <!-- Registration 3 - Bootstrap Brain Component -->
 <section class="p-3 p-md-4 p-xl-5">
+    <h5>
+        <c:if test="${not empty sessionScope.message}">
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '${sessionScope.message}',
+                    showConfirmButton: true
+                });
+                <c:remove var="message" scope="session" />
+            </script>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.errorMessage}">
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '${sessionScope.errorMessage}',
+                    showConfirmButton: true
+                });
+                <c:remove var="errorMessage" scope="session" />
+            </script>
+        </c:if>
+    </h5>
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-6 bsb-tpl-bg-platinum">
@@ -58,40 +88,40 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-5">
-                                <h2 class="h3">Registration</h2>
-                                <h3 class="fs-6 fw-normal text-secondary m-0">Enter your details to register</h3>
+                                <h2 class="h3">Đăng Ký</h2>
+                                <h3 class="fs-6 fw-normal text-secondary m-0">Nhập thông tin của bạn để đăng ký</h3>
                             </div>
                         </div>
                     </div>
-                    <form action="#!">
+                    <form action="${pageContext.request.contextPath}/register" method="post">
                         <div class="row gy-3 gy-md-4 overflow-hidden">
                             <div class="col-12">
-                                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" required>
+                                <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
                             </div>
                             <div class="col-12">
-                                <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" required>
+                                <label for="fullname" class="form-label">Username <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Username" required>
                             </div>
                             <div class="col-12">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
                             </div>
                             <div class="col-12">
-                                <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" name="password" id="password" value="" required>
+                                <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" name="password" id="password" required>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" name="iAgree" id="iAgree" required>
                                     <label class="form-check-label text-secondary" for="iAgree">
-                                        I agree to the <a href="#!" class="link-primary text-decoration-none">terms and conditions</a>
+                                        Tôi đồng ý với <a href="#!" class="link-primary text-decoration-none">các điều khoản và điều kiện</a>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="d-grid">
-                                    <button class="btn bsb-btn-xl btn-primary" type="submit">Sign up</button>
+                                    <button class="btn bsb-btn-xl btn-primary" type="submit">Đăng ký</button>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +129,7 @@
                     <div class="row">
                         <div class="col-12">
                             <hr class="mt-5 mb-4 border-secondary-subtle">
-                            <p class="m-0 text-secondary text-end">Already have an account? <a href="${pageContext.request.contextPath}/views/pages/page/login.jsp" class="link-primary text-decoration-none">Sign in</a></p>
+                            <p class="m-0 text-secondary text-end">Đã có tài khoản? <a href="${pageContext.request.contextPath}/views/pages/page/login.jsp" class="link-primary text-decoration-none">Đăng nhập</a></p>
                         </div>
                     </div>
                 </div>
@@ -110,5 +140,6 @@
 
 <%--Footer--%>
 <jsp:include page="../../templates/components/footer.jsp"/>
+
 </body>
 </html>

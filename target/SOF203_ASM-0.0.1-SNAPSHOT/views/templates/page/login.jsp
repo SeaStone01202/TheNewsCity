@@ -6,6 +6,10 @@
     <title>Đăng Nhập</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -68,6 +72,31 @@
             </div>
         </div>
     </div>
+    <h5>
+        <c:if test="${not empty sessionScope.message}">
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '${sessionScope.message}',
+                    showConfirmButton: true
+                });
+                <c:remove var="message" scope="session" />
+            </script>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.errorMessage}">
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '${sessionScope.errorMessage}',
+                    showConfirmButton: true
+                });
+                <c:remove var="errorMessage" scope="session" />
+            </script>
+        </c:if>
+    </h5>
 </section>
 
 

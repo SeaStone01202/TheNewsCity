@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -147,34 +148,45 @@ public class NewsServiceImpl implements NewsService {
         String isHome = request.getParameter("home");
         Part filePart = request.getPart("mockupID");
 
-        // Kiểm tra filePart có hợp lệ không
-        if (filePart == null || filePart.getSize() == 0) {
-            servletUtil.showError("No file uploaded.");
+        // Tìm bài viết theo ID
+        News existingNews = findById(Integer.parseInt(id));
+
+        if (existingNews == null) {
+            servletUtil.showError("News not found.");
             return;
         }
 
-        // Sử dụng ImageUtil để lưu file trên server
-        String fileName;
-        try {
-            fileName = ImageUtil.saveImage(filePart, request.getServletContext());
-        } catch (IOException e) {
-            servletUtil.showError("Error saving file: " + e.getMessage());
-            return;
+        // Sử dụng ImageUtil để lưu file trên server nếu có file mới
+        String fileName = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            try {
+                fileName = ImageUtil.saveImage(filePart, request.getServletContext());
+            } catch (IOException e) {
+                servletUtil.showError("Error saving file: " + e.getMessage());
+                return;
+            }
         }
 
-        // Tạo đường dẫn URL tương ứng với file đã lưu
-        String imagePath = request.getServletContext().getContextPath() + "/uploads/" + fileName;
-        News entityResponse = new News();
-        entityResponse.setTitle(title);
-        entityResponse.setContent(content);
-        entityResponse.setCategoryId(category);
-        entityResponse.setIsHome(Boolean.parseBoolean(isHome));
-        entityResponse.setPostedDate(DateUtils.getCurrentDate());
-        entityResponse.setAuthorId("2");
-        entityResponse.setImage(imagePath);
-        entityResponse.setNewsId(Integer.parseInt(id));
-        News news = update(entityResponse);
-        if (news != null) {
+        // Nếu người dùng không upload ảnh mới, giữ nguyên ảnh cũ
+        String imagePath;
+        if (fileName != null) {
+            imagePath = request.getServletContext().getContextPath() + "/uploads/" + fileName;
+        } else {
+            imagePath = existingNews.getImage(); // Giữ nguyên ảnh cũ
+        }
+
+        // Cập nhật thông tin bài viết
+        existingNews.setTitle(title);
+        existingNews.setContent(content);
+        existingNews.setCategoryId(category);
+        existingNews.setIsHome(Boolean.parseBoolean(isHome));
+        existingNews.setPostedDate(DateUtils.getCurrentDate());
+        existingNews.setAuthorId("2");
+        existingNews.setImage(imagePath); // Giữ hoặc cập nhật ảnh
+
+        News updatedNews = update(existingNews);
+
+        if (updatedNews != null) {
             request.getSession().setAttribute("message", "News updated successfully!");
             response.sendRedirect(request.getContextPath() + "/user/news");
         } else {
@@ -182,6 +194,7 @@ public class NewsServiceImpl implements NewsService {
             response.sendRedirect(request.getContextPath() + "/user/news");
         }
     }
+
 
     public void deleteNews() throws ServletException, IOException {
         String id = request.getParameter("idC");
@@ -222,7 +235,16 @@ public class NewsServiceImpl implements NewsService {
 
     public void getAllNews() throws ServletException, IOException {
         newsList = findAll();
-        request.setAttribute("listNews", newsList);
+
+        List<News> newsListByUser = new ArrayList<>();
+
+        User userCurrency = (User) request.getSession().getAttribute("user");
+        for (News news : newsList) {
+            if (news.getAuthorId().equals(String.valueOf(userCurrency.getUserId()))) {
+                newsListByUser.add(news);
+            }
+        }
+        request.setAttribute("listNews", newsListByUser);
 
         categoryList = categoryService.findAll();
         request.setAttribute("listCategory", categoryList);
